@@ -81,6 +81,10 @@
   .table-wrap{overflow-x:auto;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg)}
   table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
   th{text-align:left;font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;padding:10px 12px;border-bottom:0.5px solid var(--border);background:var(--bg2)}
+  th.sortable{cursor:pointer;user-select:none}
+  th.sortable:hover{color:var(--text)}
+  th.sort-asc::after{content:' ↑';font-size:10px}
+  th.sort-desc::after{content:' ↓';font-size:10px}
   td{padding:10px 12px;border-bottom:0.5px solid var(--border);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   tr:last-child td{border-bottom:none}
   tr:hover td{background:var(--bg2)}
@@ -230,13 +234,13 @@
         <table>
           <thead>
             <tr>
-              <th class="col-id">ID</th>
-              <th class="col-name">Item name</th>
-              <th class="col-cat">Category</th>
-              <th class="col-office">Office</th>
-              <th class="col-status">Status</th>
-              <th class="col-held">Held by</th>
-              <th class="col-date">Date out</th>
+              <th class="col-id sortable" onclick="sortBy('id')">ID</th>
+              <th class="col-name sortable" onclick="sortBy('name')">Item name</th>
+              <th class="col-cat sortable" onclick="sortBy('cat')">Category</th>
+              <th class="col-office sortable" onclick="sortBy('office')">Office</th>
+              <th class="col-status sortable" onclick="sortBy('status')">Status</th>
+              <th class="col-held sortable" onclick="sortBy('heldBy')">Held by</th>
+              <th class="col-date sortable" onclick="sortBy('dateOut')">Date out</th>
               <th class="col-actions">Actions</th>
             </tr>
           </thead>
@@ -463,6 +467,27 @@ function statusBadge(s) {
 function catBadge(c) { return `<span class="badge ${c==='Tech'?'cat-tech':'cat-mkt'}">${c}</span>`; }
 function officeBadge(o) { return `<span class="badge ${o==='UK'?'office-uk':'office-ie'}">${o}</span>`; }
 
+// ─── Sort State ──────────────────────────────────────────────────────────────
+let sortField = 'id';
+let sortDir = 'asc';
+
+function sortBy(field) {
+  if (sortField === field) {
+    sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+  } else {
+    sortField = field;
+    sortDir = 'asc';
+  }
+  // Update header classes
+  document.querySelectorAll('th.sortable').forEach(th => {
+    th.classList.remove('sort-asc','sort-desc');
+    if (th.getAttribute('onclick') === `sortBy('${field}')`) {
+      th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
+    }
+  });
+  renderTable();
+}
+
 // ─── Stats ───────────────────────────────────────────────────────────────────
 function renderStats() {
   const total = inventory.length;
@@ -493,6 +518,12 @@ function renderTable() {
     if (fs && i.status !== fs) return false;
     if (fq && !i.name.toLowerCase().includes(fq) && !i.id.toLowerCase().includes(fq) && !(i.heldBy||'').toLowerCase().includes(fq)) return false;
     return true;
+  }).sort((a, b) => {
+    const av = (a[sortField] || '').toLowerCase();
+    const bv = (b[sortField] || '').toLowerCase();
+    if (av < bv) return sortDir === 'asc' ? -1 : 1;
+    if (av > bv) return sortDir === 'asc' ? 1 : -1;
+    return 0;
   });
   const tbody = document.getElementById('inv-body');
   const empty = document.getElementById('table-empty');
