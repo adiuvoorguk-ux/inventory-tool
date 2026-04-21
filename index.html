@@ -16,6 +16,7 @@
     --red-bg:#fcebeb;--red-text:#791f1f;--red-border:#f7c1c1;
     --amber-bg:#faeeda;--amber-text:#633806;--amber-border:#fac775;
     --purple-bg:#eeedfe;--purple-text:#3c3489;--purple-border:#cecbf6;
+    --teal-bg:#e1f5ee;--teal-text:#085041;--teal-border:#5dcaa5;
     --radius:8px;--radius-lg:12px;
   }
   @media(prefers-color-scheme:dark){
@@ -28,11 +29,10 @@
       --red-bg:#2e0e0e;--red-text:#f09595;--red-border:#a32d2d;
       --amber-bg:#2a1a04;--amber-text:#fac775;--amber-border:#854f0b;
       --purple-bg:#1a1838;--purple-text:#afa9ec;--purple-border:#534ab7;
+      --teal-bg:#04342c;--teal-text:#9fe1cb;--teal-border:#0f6e56;
     }
   }
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;background:var(--bg3);color:var(--text);min-height:100vh}
-  
-  /* API Key Screen */
   #api-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
   .api-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:2rem;max-width:480px;width:100%}
   .api-card h1{font-size:20px;font-weight:500;margin-bottom:.5rem}
@@ -40,8 +40,6 @@
   .api-card input{width:100%;font-size:13px;padding:10px 12px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg2);color:var(--text);margin-bottom:10px}
   .api-card a{color:var(--blue-text);font-size:12px}
   .tip-box{background:var(--bg2);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--text2);margin-bottom:1rem;line-height:1.6}
-
-  /* App Shell */
   #app{display:none;min-height:100vh;flex-direction:column}
   header{background:var(--bg);border-bottom:0.5px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:10}
   .header-title{font-size:15px;font-weight:500}
@@ -49,9 +47,7 @@
   nav{background:var(--bg);border-bottom:0.5px solid var(--border);padding:0 1.5rem;display:flex;gap:4px}
   .nav-tab{padding:10px 14px;font-size:13px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--text2);cursor:pointer;font-family:inherit}
   .nav-tab.active{color:var(--text);border-bottom-color:var(--text)}
-  main{padding:1.5rem;max-width:1100px;margin:0 auto;width:100%}
-
-  /* Buttons */
+  main{padding:1.5rem;max-width:1200px;margin:0 auto;width:100%}
   .btn{padding:7px 14px;font-size:13px;border:0.5px solid var(--border2);border-radius:var(--radius);background:transparent;color:var(--text);cursor:pointer;font-family:inherit;white-space:nowrap}
   .btn:hover{background:var(--bg2)}
   .btn-primary{background:var(--text);color:var(--bg);border-color:var(--text)}
@@ -61,23 +57,17 @@
   .btn-danger:hover{background:var(--red-bg)}
   .btn-success{color:var(--green-text);border-color:var(--green-border)}
   .btn-success:hover{background:var(--green-bg)}
-
-  /* Stats */
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1.5rem}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:1.5rem}
   .stat{background:var(--bg2);border-radius:var(--radius);padding:.75rem 1rem}
   .stat-label{font-size:11px;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
-  .stat-val{font-size:24px;font-weight:500}
+  .stat-val{font-size:22px;font-weight:500}
   .stat-val.green{color:var(--green-text)}
   .stat-val.blue{color:var(--blue-text)}
   .stat-val.red{color:var(--red-text)}
   .stat-val.amber{color:var(--amber-text)}
-
-  /* Filters */
   .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;align-items:center}
   .filters select,.filters input[type=text]{font-size:13px;padding:6px 10px;height:34px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:inherit}
   .filters input[type=text]{flex:1;min-width:160px}
-
-  /* Table */
   .table-wrap{overflow-x:auto;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg)}
   table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
   th{text-align:left;font-size:11px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;padding:10px 12px;border-bottom:0.5px solid var(--border);background:var(--bg2)}
@@ -89,15 +79,14 @@
   tr:last-child td{border-bottom:none}
   tr:hover td{background:var(--bg2)}
   .col-id{width:110px}
-  .col-name{width:auto;min-width:140px}
-  .col-cat{width:100px}
-  .col-office{width:85px}
-  .col-status{width:130px}
-  .col-held{width:110px}
+  .col-name{width:auto;min-width:130px}
+  .col-type{width:110px}
+  .col-cat{width:95px}
+  .col-office{width:80px}
+  .col-status{width:125px}
+  .col-held{width:105px}
   .col-date{width:90px}
   .col-actions{width:90px}
-
-  /* Badges */
   .badge{display:inline-block;font-size:11px;font-weight:500;padding:3px 8px;border-radius:20px;border:0.5px solid;white-space:nowrap}
   .b-available{background:var(--green-bg);color:var(--green-text);border-color:var(--green-border)}
   .b-checkout{background:var(--blue-bg);color:var(--blue-text);border-color:var(--blue-border)}
@@ -108,38 +97,27 @@
   .cat-mkt{background:var(--purple-bg);color:var(--purple-text);border-color:var(--purple-border)}
   .office-uk{background:var(--green-bg);color:var(--green-text);border-color:var(--green-border)}
   .office-ie{background:var(--amber-bg);color:var(--amber-text);border-color:var(--amber-border)}
-
-  /* Inline status select */
+  .type-badge{background:var(--bg2);color:var(--text2);border-color:var(--border2)}
   .inline-status{font-size:12px;padding:3px 6px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:inherit;cursor:pointer;width:100%}
-
-  /* Card */
   .card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
   .card h3{font-size:15px;font-weight:500;margin-bottom:.25rem}
   .card-sub{font-size:12px;color:var(--text2);margin-bottom:1rem}
-
-  /* AI Box */
   .ai-box{background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
   .ai-box textarea{width:100%;font-size:13px;padding:10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);resize:vertical;min-height:80px;font-family:inherit;line-height:1.5}
   .ai-box textarea:focus{outline:none;border-color:var(--blue-border)}
-
-  /* Form */
   .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+  .form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
   .form-group{display:flex;flex-direction:column;gap:4px}
   .form-group label{font-size:12px;color:var(--text2)}
   .form-group input,.form-group select,.form-group textarea{font-size:13px;padding:7px 10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:inherit}
   .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--blue-border)}
   .form-full{grid-column:1/-1}
-
-  /* Log */
   .log-entry{display:flex;gap:12px;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:13px}
   .log-entry:last-child{border-bottom:none}
   .log-time{color:var(--text3);min-width:120px;flex-shrink:0;font-size:12px}
   .log-msg{color:var(--text2)}
-
-  /* Misc */
   .divider{border:none;border-top:0.5px solid var(--border);margin:1.25rem 0}
   .empty{text-align:center;padding:2.5rem;color:var(--text3);font-size:13px}
-  .section-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:.75rem}
   .inline-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .status-msg{font-size:12px;padding:3px 0}
   .status-ok{color:var(--green-text)}
@@ -147,19 +125,14 @@
   .loading{display:inline-block;width:12px;height:12px;border:2px solid var(--border2);border-top-color:var(--text2);border-radius:50%;animation:spin .7s linear infinite;margin-right:6px;vertical-align:middle}
   @keyframes spin{to{transform:rotate(360deg)}}
   .ai-preview{margin-top:12px}
-  .ai-preview table{margin-top:8px}
-
-  /* Modal backdrop */
   .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center;padding:1rem}
   .modal-backdrop.open{display:flex}
-  .modal{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:440px}
+  .modal{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:460px}
   .modal h3{font-size:15px;font-weight:500;margin-bottom:1rem}
   .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
-
   @media(max-width:600px){
-    .form-grid{grid-template-columns:1fr}
-    .col-held,.col-date,.col-cat{display:none}
-    .filters select{font-size:12px;padding:5px 8px}
+    .form-grid,.form-grid-3{grid-template-columns:1fr}
+    .col-held,.col-date,.col-type{display:none}
     header{padding:0 1rem}
     main{padding:1rem}
   }
@@ -167,13 +140,12 @@
 </head>
 <body>
 
-<!-- API Key Screen -->
 <div id="api-screen">
   <div class="api-card">
     <h1>Inventory Manager</h1>
     <p>UK &amp; Ireland — Tech &amp; Marketing stock tracker with AI bulk import</p>
     <div class="tip-box">
-      To use the AI import feature, you need a free Anthropic API key.<br>
+      To use the AI import feature you need a free Anthropic API key.<br>
       Get one at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> — includes $5 free credit (≈5,000 imports).<br><br>
       Your key is stored only in this browser and never shared.
     </div>
@@ -189,7 +161,6 @@
   </div>
 </div>
 
-<!-- Main App -->
 <div id="app">
   <header>
     <span class="header-title">Inventory Manager — UK &amp; Ireland</span>
@@ -206,7 +177,6 @@
   </nav>
   <main>
 
-    <!-- Dashboard Tab -->
     <div id="tab-dashboard">
       <div class="stats" id="stats-row"></div>
       <div class="filters">
@@ -220,6 +190,29 @@
           <option value="Tech">Tech</option>
           <option value="Marketing">Marketing</option>
         </select>
+        <select id="f-type" onchange="renderTable()">
+          <option value="">All item types</option>
+          <optgroup label="— Tech —">
+            <option value="Laptop">Laptop</option>
+            <option value="Screen">Screen</option>
+            <option value="Mouse">Mouse</option>
+            <option value="Keyboard">Keyboard</option>
+            <option value="Headset">Headset</option>
+            <option value="Phone">Phone</option>
+            <option value="Tablet">Tablet</option>
+            <option value="Dock / Hub">Dock / Hub</option>
+            <option value="Cable / Adapter">Cable / Adapter</option>
+            <option value="Other Tech">Other Tech</option>
+          </optgroup>
+          <optgroup label="— Marketing —">
+            <option value="Banner / Stand">Banner / Stand</option>
+            <option value="Brochure / Print">Brochure / Print</option>
+            <option value="Branded Merch">Branded Merch</option>
+            <option value="Event Kit">Event Kit</option>
+            <option value="Camera / AV">Camera / AV</option>
+            <option value="Other Marketing">Other Marketing</option>
+          </optgroup>
+        </select>
         <select id="f-status" onchange="renderTable()">
           <option value="">All statuses</option>
           <option value="Available">Available</option>
@@ -228,7 +221,7 @@
           <option value="Faulty">Faulty</option>
           <option value="Under repair">Under repair</option>
         </select>
-        <input type="text" id="f-search" placeholder="Search by name, ID or person…" oninput="renderTable()">
+        <input type="text" id="f-search" placeholder="Search name, ID, person…" oninput="renderTable()">
       </div>
       <div class="table-wrap">
         <table>
@@ -236,6 +229,7 @@
             <tr>
               <th class="col-id sortable" onclick="sortBy('id')">ID</th>
               <th class="col-name sortable" onclick="sortBy('name')">Item name</th>
+              <th class="col-type sortable" onclick="sortBy('type')">Type</th>
               <th class="col-cat sortable" onclick="sortBy('cat')">Category</th>
               <th class="col-office sortable" onclick="sortBy('office')">Office</th>
               <th class="col-status sortable" onclick="sortBy('status')">Status</th>
@@ -250,39 +244,36 @@
       </div>
     </div>
 
-    <!-- Add Stock Tab -->
     <div id="tab-add" style="display:none">
       <div class="ai-box">
         <h3 style="margin-bottom:.25rem">AI bulk import</h3>
         <p class="card-sub">Describe your stock in plain English — AI parses it into items automatically.</p>
-        <textarea id="ai-input" placeholder="e.g. 5 Dell laptops and 3 monitors for the UK tech team, plus 10 branded tote bags and 20 brochures for Ireland marketing"></textarea>
+        <textarea id="ai-input" placeholder="e.g. 5 Dell laptops and 3 monitors for the UK tech team, plus 10 branded tote bags for Ireland marketing"></textarea>
         <div class="inline-row" style="margin-top:8px">
           <button class="btn btn-primary" onclick="runAIImport()" id="ai-btn">Parse with AI</button>
           <span id="ai-status" style="font-size:12px;color:var(--text2)"></span>
         </div>
         <div id="ai-preview" class="ai-preview"></div>
       </div>
-
       <hr class="divider">
-
       <div class="card">
         <h3>Add single item</h3>
         <p class="card-sub">Fill in the details below. Use quantity to add multiple copies at once.</p>
-        <div class="form-grid">
+        <div class="form-grid-3">
           <div class="form-group">
             <label>Item name *</label>
             <input type="text" id="s-name" placeholder="e.g. Dell laptop 15&quot;">
           </div>
           <div class="form-group">
-            <label>Quantity</label>
-            <input type="number" id="s-qty" value="1" min="1" max="200">
-          </div>
-          <div class="form-group">
             <label>Category *</label>
-            <select id="s-cat">
+            <select id="s-cat" onchange="updateTypeOptions()">
               <option value="Tech">Tech</option>
               <option value="Marketing">Marketing</option>
             </select>
+          </div>
+          <div class="form-group">
+            <label>Item type *</label>
+            <select id="s-type"></select>
           </div>
           <div class="form-group">
             <label>Office *</label>
@@ -291,9 +282,13 @@
               <option value="Ireland">Ireland</option>
             </select>
           </div>
-          <div class="form-group form-full">
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" id="s-qty" value="1" min="1" max="200">
+          </div>
+          <div class="form-group">
             <label>Notes (optional)</label>
-            <input type="text" id="s-notes" placeholder="Serial number, model, condition…">
+            <input type="text" id="s-notes" placeholder="Serial number, condition…">
           </div>
         </div>
         <div class="inline-row">
@@ -303,7 +298,6 @@
       </div>
     </div>
 
-    <!-- Log Tab -->
     <div id="tab-log" style="display:none">
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
@@ -345,7 +339,7 @@
 <div class="modal-backdrop" id="import-modal">
   <div class="modal">
     <h3>Import from Excel</h3>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Upload a previously exported inventory Excel file. Existing items will be kept; imported items will be added.</p>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Upload a previously exported inventory Excel file. Existing items will be updated; new items will be added.</p>
     <div class="form-group" style="margin-bottom:12px">
       <label>Select .xlsx file</label>
       <input type="file" id="import-file" accept=".xlsx,.xls" style="font-size:13px;padding:6px 0;border:none;background:transparent;color:var(--text)">
@@ -375,53 +369,61 @@
 </div>
 
 <script>
-// ─── State ───────────────────────────────────────────────────────────────────
+const TECH_TYPES = ['Laptop','Screen','Mouse','Keyboard','Headset','Phone','Tablet','Dock / Hub','Cable / Adapter','Other Tech'];
+const MKT_TYPES = ['Banner / Stand','Brochure / Print','Branded Merch','Event Kit','Camera / AV','Other Marketing'];
+
+function typeOptions(cat) {
+  return cat === 'Tech' ? TECH_TYPES : MKT_TYPES;
+}
+function updateTypeOptions() {
+  const cat = document.getElementById('s-cat').value;
+  const sel = document.getElementById('s-type');
+  sel.innerHTML = typeOptions(cat).map(t => `<option value="${t}">${t}</option>`).join('');
+}
+
 let inventory = JSON.parse(localStorage.getItem('inv_data') || '[]');
 let activityLog = JSON.parse(localStorage.getItem('inv_log') || '[]');
 let apiKey = localStorage.getItem('inv_api_key') || '';
 let checkoutTargetId = null;
+let sortField = 'id';
+let sortDir = 'asc';
 
-// Default sample data if fresh install
 if (!inventory.length) {
   inventory = [
-    {id:'UK-TECH-0001',name:'MacBook Pro 14"',cat:'Tech',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
-    {id:'UK-TECH-0002',name:'Dell monitor 27"',cat:'Tech',office:'UK',status:'Checked out',heldBy:'Sarah O.',dateOut:'2026-04-10',dueBack:'2026-04-25',notes:''},
-    {id:'UK-TECH-0003',name:'Logitech headset',cat:'Tech',office:'UK',status:'Faulty',heldBy:'',dateOut:'',dueBack:'',notes:'Left ear no audio'},
-    {id:'UK-MKT-0001',name:'Pull-up banner',cat:'Marketing',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
-    {id:'UK-MKT-0002',name:'Branded tote bags x20',cat:'Marketing',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
-    {id:'IE-TECH-0001',name:'iPad Pro 12.9"',cat:'Tech',office:'Ireland',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
-    {id:'IE-TECH-0002',name:'USB-C dock',cat:'Tech',office:'Ireland',status:'Under repair',heldBy:'',dateOut:'',dueBack:'',notes:'Sent to supplier 2026-04-15'},
-    {id:'IE-MKT-0001',name:'Event display kit',cat:'Marketing',office:'Ireland',status:'Checked out',heldBy:'Cian M.',dateOut:'2026-04-18',dueBack:'2026-04-30',notes:'Dublin conference'},
-    {id:'IE-MKT-0002',name:'Brochures (500)',cat:'Marketing',office:'Ireland',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
+    {id:'UK-TECH-0001',name:'MacBook Pro 14"',type:'Laptop',cat:'Tech',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
+    {id:'UK-TECH-0002',name:'Dell monitor 27"',type:'Screen',cat:'Tech',office:'UK',status:'Checked out',heldBy:'Sarah O.',dateOut:'2026-04-10',dueBack:'2026-04-25',notes:''},
+    {id:'UK-TECH-0003',name:'Logitech headset',type:'Headset',cat:'Tech',office:'UK',status:'Faulty',heldBy:'',dateOut:'',dueBack:'',notes:'Left ear no audio'},
+    {id:'UK-TECH-0004',name:'Magic keyboard',type:'Keyboard',cat:'Tech',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
+    {id:'UK-TECH-0005',name:'Logitech MX mouse',type:'Mouse',cat:'Tech',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
+    {id:'UK-MKT-0001',name:'Pull-up banner',type:'Banner / Stand',cat:'Marketing',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
+    {id:'UK-MKT-0002',name:'Branded tote bags x20',type:'Branded Merch',cat:'Marketing',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
+    {id:'IE-TECH-0001',name:'iPad Pro 12.9"',type:'Tablet',cat:'Tech',office:'Ireland',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
+    {id:'IE-TECH-0002',name:'USB-C dock',type:'Dock / Hub',cat:'Tech',office:'Ireland',status:'Under repair',heldBy:'',dateOut:'',dueBack:'',notes:'Sent to supplier 2026-04-15'},
+    {id:'IE-MKT-0001',name:'Event display kit',type:'Event Kit',cat:'Marketing',office:'Ireland',status:'Checked out',heldBy:'Cian M.',dateOut:'2026-04-18',dueBack:'2026-04-30',notes:'Dublin conference'},
+    {id:'IE-MKT-0002',name:'Brochures (500)',type:'Brochure / Print',cat:'Marketing',office:'Ireland',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
   ];
   save();
 }
 
-// ─── Persistence ─────────────────────────────────────────────────────────────
 function save() {
   localStorage.setItem('inv_data', JSON.stringify(inventory));
   localStorage.setItem('inv_log', JSON.stringify(activityLog));
 }
 
-// ─── ID Generation ───────────────────────────────────────────────────────────
 function genId(cat, office) {
   const prefix = (office === 'UK' ? 'UK' : 'IE') + '-' + (cat === 'Tech' ? 'TECH' : 'MKT') + '-';
   const nums = inventory.filter(i => i.id.startsWith(prefix)).map(i => parseInt(i.id.split('-')[2]) || 0);
-  const next = nums.length ? Math.max(...nums) + 1 : 1;
-  return prefix + String(next).padStart(4, '0');
+  return prefix + String((nums.length ? Math.max(...nums) : 0) + 1).padStart(4, '0');
 }
 
-// ─── Logging ─────────────────────────────────────────────────────────────────
 function logAction(msg) {
   const now = new Date();
-  const ts = now.toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'})
-    + ' ' + now.toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'});
+  const ts = now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) + ' ' + now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
   activityLog.unshift({ts, msg});
   if (activityLog.length > 200) activityLog = activityLog.slice(0, 200);
   save();
 }
 
-// ─── API Key ─────────────────────────────────────────────────────────────────
 function saveApiKey() {
   const k = document.getElementById('api-key-input').value.trim();
   apiKey = k;
@@ -432,6 +434,7 @@ function skipApiKey() { launchApp(); }
 function launchApp() {
   document.getElementById('api-screen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
+  updateTypeOptions();
   renderTable();
 }
 function showApiModal() {
@@ -445,7 +448,6 @@ function updateApiKey() {
   alert('API key updated.');
 }
 
-// ─── Tab Navigation ──────────────────────────────────────────────────────────
 function showTab(name) {
   ['dashboard','add','log'].forEach(t => {
     document.getElementById('tab-'+t).style.display = t === name ? 'block' : 'none';
@@ -456,29 +458,9 @@ function showTab(name) {
   if (name === 'log') renderLog();
 }
 
-// ─── Badges ──────────────────────────────────────────────────────────────────
-function statusBadge(s) {
-  const cls = {
-    'Available':'b-available','Checked out':'b-checkout',
-    'Faulty':'b-faulty','Under repair':'b-repair','Returned':'b-returned'
-  }[s] || '';
-  return `<span class="badge ${cls}">${s}</span>`;
-}
-function catBadge(c) { return `<span class="badge ${c==='Tech'?'cat-tech':'cat-mkt'}">${c}</span>`; }
-function officeBadge(o) { return `<span class="badge ${o==='UK'?'office-uk':'office-ie'}">${o}</span>`; }
-
-// ─── Sort State ──────────────────────────────────────────────────────────────
-let sortField = 'id';
-let sortDir = 'asc';
-
 function sortBy(field) {
-  if (sortField === field) {
-    sortDir = sortDir === 'asc' ? 'desc' : 'asc';
-  } else {
-    sortField = field;
-    sortDir = 'asc';
-  }
-  // Update header classes
+  if (sortField === field) { sortDir = sortDir === 'asc' ? 'desc' : 'asc'; }
+  else { sortField = field; sortDir = 'asc'; }
   document.querySelectorAll('th.sortable').forEach(th => {
     th.classList.remove('sort-asc','sort-desc');
     if (th.getAttribute('onclick') === `sortBy('${field}')`) {
@@ -488,39 +470,47 @@ function sortBy(field) {
   renderTable();
 }
 
-// ─── Stats ───────────────────────────────────────────────────────────────────
+function statusBadge(s) {
+  const cls = {'Available':'b-available','Checked out':'b-checkout','Faulty':'b-faulty','Under repair':'b-repair','Returned':'b-returned'}[s]||'';
+  return `<span class="badge ${cls}">${s}</span>`;
+}
+function catBadge(c) { return `<span class="badge ${c==='Tech'?'cat-tech':'cat-mkt'}">${c}</span>`; }
+function officeBadge(o) { return `<span class="badge ${o==='UK'?'office-uk':'office-ie'}">${o}</span>`; }
+function typeBadge(t) { return `<span class="badge type-badge">${t||'—'}</span>`; }
+
 function renderStats() {
   const total = inventory.length;
-  const avail = inventory.filter(i => i.status === 'Available').length;
-  const out = inventory.filter(i => i.status === 'Checked out').length;
-  const faulty = inventory.filter(i => i.status === 'Faulty' || i.status === 'Under repair').length;
-  const uk = inventory.filter(i => i.office === 'UK').length;
-  const ie = inventory.filter(i => i.office === 'Ireland').length;
+  const avail = inventory.filter(i=>i.status==='Available').length;
+  const out = inventory.filter(i=>i.status==='Checked out').length;
+  const faulty = inventory.filter(i=>i.status==='Faulty'||i.status==='Under repair').length;
+  const uk = inventory.filter(i=>i.office==='UK').length;
+  const ie = inventory.filter(i=>i.office==='Ireland').length;
   document.getElementById('stats-row').innerHTML = `
-    <div class="stat"><div class="stat-label">Total items</div><div class="stat-val">${total}</div></div>
+    <div class="stat"><div class="stat-label">Total</div><div class="stat-val">${total}</div></div>
     <div class="stat"><div class="stat-label">Available</div><div class="stat-val green">${avail}</div></div>
     <div class="stat"><div class="stat-label">Checked out</div><div class="stat-val blue">${out}</div></div>
-    <div class="stat"><div class="stat-label">Faulty / repair</div><div class="stat-val red">${faulty}</div></div>
-    <div class="stat"><div class="stat-label">UK office</div><div class="stat-val">${uk}</div></div>
-    <div class="stat"><div class="stat-label">Ireland office</div><div class="stat-val amber">${ie}</div></div>
+    <div class="stat"><div class="stat-label">Faulty/repair</div><div class="stat-val red">${faulty}</div></div>
+    <div class="stat"><div class="stat-label">UK</div><div class="stat-val">${uk}</div></div>
+    <div class="stat"><div class="stat-label">Ireland</div><div class="stat-val amber">${ie}</div></div>
   `;
 }
 
-// ─── Table ───────────────────────────────────────────────────────────────────
 function renderTable() {
   const fo = document.getElementById('f-office').value;
   const fc = document.getElementById('f-cat').value;
+  const ft = document.getElementById('f-type').value;
   const fs = document.getElementById('f-status').value;
   const fq = document.getElementById('f-search').value.toLowerCase();
   const rows = inventory.filter(i => {
     if (fo && i.office !== fo) return false;
     if (fc && i.cat !== fc) return false;
+    if (ft && i.type !== ft) return false;
     if (fs && i.status !== fs) return false;
-    if (fq && !i.name.toLowerCase().includes(fq) && !i.id.toLowerCase().includes(fq) && !(i.heldBy||'').toLowerCase().includes(fq)) return false;
+    if (fq && !i.name.toLowerCase().includes(fq) && !i.id.toLowerCase().includes(fq) && !(i.heldBy||'').toLowerCase().includes(fq) && !(i.type||'').toLowerCase().includes(fq)) return false;
     return true;
   }).sort((a, b) => {
-    const av = (a[sortField] || '').toLowerCase();
-    const bv = (b[sortField] || '').toLowerCase();
+    const av = (a[sortField]||'').toLowerCase();
+    const bv = (b[sortField]||'').toLowerCase();
     if (av < bv) return sortDir === 'asc' ? -1 : 1;
     if (av > bv) return sortDir === 'asc' ? 1 : -1;
     return 0;
@@ -533,6 +523,7 @@ function renderTable() {
     <tr>
       <td class="col-id" style="font-family:monospace;font-size:11px;color:var(--text3)" title="${i.id}">${i.id}</td>
       <td class="col-name" title="${i.name}">${i.name}</td>
+      <td class="col-type">${typeBadge(i.type)}</td>
       <td class="col-cat">${catBadge(i.cat)}</td>
       <td class="col-office">${officeBadge(i.office)}</td>
       <td class="col-status">
@@ -544,8 +535,8 @@ function renderTable() {
       <td class="col-date" style="color:var(--text3)">${i.dateOut||'—'}</td>
       <td class="col-actions">
         <div style="display:flex;gap:4px">
-          <button class="btn btn-sm" onclick="openCheckout('${i.id}')" title="Check out">Out</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteItem('${i.id}')" title="Delete">Del</button>
+          <button class="btn btn-sm" onclick="openCheckout('${i.id}')">Out</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteItem('${i.id}')">Del</button>
         </div>
       </td>
     </tr>
@@ -553,256 +544,205 @@ function renderTable() {
   renderStats();
 }
 
-// ─── Status Change ───────────────────────────────────────────────────────────
 function changeStatus(id, val) {
-  const item = inventory.find(i => i.id === id);
+  const item = inventory.find(i=>i.id===id);
   if (!item) return;
   const old = item.status;
   item.status = val;
-  if (val === 'Available' || val === 'Returned') { item.heldBy = ''; item.dateOut = ''; item.dueBack = ''; }
+  if (val==='Available'||val==='Returned'){item.heldBy='';item.dateOut='';item.dueBack='';}
   logAction(`${item.id} (${item.name}): status changed from "${old}" to "${val}"`);
-  save();
-  renderTable();
+  save(); renderTable();
 }
 
-// ─── Checkout Modal ──────────────────────────────────────────────────────────
 function openCheckout(id) {
-  const item = inventory.find(i => i.id === id);
+  const item = inventory.find(i=>i.id===id);
   if (!item) return;
   checkoutTargetId = id;
   document.getElementById('checkout-item-name').textContent = `${item.id} — ${item.name}`;
-  document.getElementById('checkout-name').value = item.heldBy || '';
+  document.getElementById('checkout-name').value = item.heldBy||'';
   document.getElementById('checkout-date').value = '';
-  document.getElementById('checkout-notes').value = item.notes || '';
+  document.getElementById('checkout-notes').value = item.notes||'';
   openModal('checkout-modal');
 }
 function confirmCheckout() {
   const name = document.getElementById('checkout-name').value.trim();
-  if (!name) { alert('Please enter who is taking the item.'); return; }
-  const item = inventory.find(i => i.id === checkoutTargetId);
+  if (!name){alert('Please enter who is taking the item.');return;}
+  const item = inventory.find(i=>i.id===checkoutTargetId);
   if (!item) return;
-  item.status = 'Checked out';
-  item.heldBy = name;
-  item.dateOut = new Date().toISOString().slice(0,10);
-  item.dueBack = document.getElementById('checkout-date').value;
-  const notes = document.getElementById('checkout-notes').value.trim();
-  if (notes) item.notes = notes;
-  logAction(`${item.id} (${item.name}) checked out to ${name}${item.dueBack ? ', due back '+item.dueBack : ''}`);
-  save();
-  renderTable();
-  closeModal('checkout-modal');
+  item.status='Checked out'; item.heldBy=name;
+  item.dateOut=new Date().toISOString().slice(0,10);
+  item.dueBack=document.getElementById('checkout-date').value;
+  const notes=document.getElementById('checkout-notes').value.trim();
+  if(notes) item.notes=notes;
+  logAction(`${item.id} (${item.name}) checked out to ${name}${item.dueBack?', due back '+item.dueBack:''}`);
+  save(); renderTable(); closeModal('checkout-modal');
 }
 
-// ─── Delete ───────────────────────────────────────────────────────────────────
 function deleteItem(id) {
-  const item = inventory.find(i => i.id === id);
+  const item = inventory.find(i=>i.id===id);
   if (!item) return;
   if (!confirm(`Delete "${item.name}" (${item.id})?\n\nThis cannot be undone.`)) return;
-  inventory = inventory.filter(i => i.id !== id);
+  inventory = inventory.filter(i=>i.id!==id);
   logAction(`${id} (${item.name}) deleted from inventory`);
-  save();
-  renderTable();
+  save(); renderTable();
 }
 
-// ─── Add Single ──────────────────────────────────────────────────────────────
 function addSingle() {
   const name = document.getElementById('s-name').value.trim();
-  if (!name) { showStatus('s-status','Item name is required','err'); return; }
+  if (!name){showStatus('s-status','Item name is required','err');return;}
   const cat = document.getElementById('s-cat').value;
+  const type = document.getElementById('s-type').value;
   const office = document.getElementById('s-office').value;
-  const qty = Math.max(1, parseInt(document.getElementById('s-qty').value) || 1);
+  const qty = Math.max(1, parseInt(document.getElementById('s-qty').value)||1);
   const notes = document.getElementById('s-notes').value.trim();
-  for (let q = 0; q < qty; q++) {
-    inventory.push({id:genId(cat,office),name,cat,office,status:'Available',heldBy:'',dateOut:'',dueBack:'',notes});
+  for (let q=0;q<qty;q++) {
+    inventory.push({id:genId(cat,office),name,type,cat,office,status:'Available',heldBy:'',dateOut:'',dueBack:'',notes});
   }
-  logAction(`Added ${qty}x "${name}" (${cat}, ${office} office)`);
-  save();
-  renderTable();
-  document.getElementById('s-name').value = '';
-  document.getElementById('s-notes').value = '';
-  document.getElementById('s-qty').value = '1';
-  showStatus('s-status', `${qty} item${qty>1?'s':''} added`, 'ok');
+  logAction(`Added ${qty}x "${name}" (${type}, ${cat}, ${office})`);
+  save(); renderTable();
+  document.getElementById('s-name').value='';
+  document.getElementById('s-notes').value='';
+  document.getElementById('s-qty').value='1';
+  showStatus('s-status',`${qty} item${qty>1?'s':''} added`,'ok');
 }
 
-// ─── AI Import ───────────────────────────────────────────────────────────────
 async function runAIImport() {
   const text = document.getElementById('ai-input').value.trim();
-  if (!text) { alert('Please describe your stock first.'); return; }
-  if (!apiKey) {
-    if (!confirm('No API key set. Would you like to add one now?')) return;
-    showApiModal(); return;
-  }
+  if (!text){alert('Please describe your stock first.');return;}
+  if (!apiKey){if(!confirm('No API key set. Add one now?'))return;showApiModal();return;}
   const btn = document.getElementById('ai-btn');
   const statusEl = document.getElementById('ai-status');
   const previewEl = document.getElementById('ai-preview');
   btn.disabled = true;
   statusEl.innerHTML = '<span class="loading"></span>Parsing with AI…';
   previewEl.innerHTML = '';
+  const prompt = `You are a stock inventory parser for a company with UK and Ireland offices.
+Parse the description into inventory items. Return ONLY a JSON array, no markdown, no extra text.
+Each object must have: name (string), type (string), cat ("Tech" or "Marketing"), office ("UK" or "Ireland"), qty (integer >= 1).
 
-  const prompt = `You are a stock inventory parser for a company with UK and Ireland offices. 
-Parse the following description into inventory items. Return ONLY a JSON array, no markdown, no extra text.
-Each object must have exactly: name (string), cat ("Tech" or "Marketing"), office ("UK" or "Ireland"), qty (integer ≥ 1).
+Item types for Tech: Laptop, Screen, Mouse, Keyboard, Headset, Phone, Tablet, Dock / Hub, Cable / Adapter, Other Tech
+Item types for Marketing: Banner / Stand, Brochure / Print, Branded Merch, Event Kit, Camera / AV, Other Marketing
 
 Rules:
-- If office is not clear, infer from context (e.g. "UK team" = UK, "Dublin" = Ireland)
-- If category is not clear, guess: computers/cables/phones/screens/tech = Tech, banners/bags/print/merch/brochures/event = Marketing
-- qty must be a number, default to 1 if not specified
-- name should be concise and clear
+- Infer office from context ("UK team"=UK, "Dublin"=Ireland). Default to UK if unclear.
+- Infer category from item type. Infer type from item name.
+- qty defaults to 1 if not mentioned.
 
 Description: "${text}"`;
-
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json','x-api-key': apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body: JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})
     });
-    if (!resp.ok) {
-      const err = await resp.json().catch(()=>({}));
-      throw new Error(err.error?.message || `API error ${resp.status}`);
-    }
+    if (!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error?.message||`API error ${resp.status}`);}
     const data = await resp.json();
-    const raw = data.content.map(b => b.text || '').join('');
-    const clean = raw.replace(/```json|```/g,'').trim();
-    const parsed = JSON.parse(clean);
-    statusEl.textContent = '';
-    btn.disabled = false;
-    if (!parsed.length) { previewEl.innerHTML = '<p style="font-size:13px;color:var(--text3);margin-top:10px">No items found — try rephrasing your description.</p>'; return; }
+    const raw = data.content.map(b=>b.text||'').join('');
+    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
+    statusEl.textContent=''; btn.disabled=false;
+    if (!parsed.length){previewEl.innerHTML='<p style="font-size:13px;color:var(--text3);margin-top:10px">No items found — try rephrasing.</p>';return;}
     const total = parsed.reduce((a,i)=>a+(i.qty||1),0);
     previewEl.innerHTML = `
-      <p style="font-size:13px;color:var(--text2);margin-top:12px;margin-bottom:8px">Found <strong>${total} items</strong> — review and confirm before importing:</p>
+      <p style="font-size:13px;color:var(--text2);margin-top:12px;margin-bottom:8px">Found <strong>${total} items</strong> — review and confirm:</p>
       <div style="overflow-x:auto;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg)">
-        <table>
-          <thead><tr><th>Name</th><th>Category</th><th>Office</th><th style="width:60px">Qty</th></tr></thead>
-          <tbody>${parsed.map(i=>`<tr><td>${i.name}</td><td>${catBadge(i.cat)}</td><td>${officeBadge(i.office)}</td><td>${i.qty||1}</td></tr>`).join('')}</tbody>
+        <table><thead><tr><th>Name</th><th>Type</th><th>Category</th><th>Office</th><th style="width:50px">Qty</th></tr></thead>
+        <tbody>${parsed.map(i=>`<tr><td>${i.name}</td><td>${typeBadge(i.type)}</td><td>${catBadge(i.cat)}</td><td>${officeBadge(i.office)}</td><td>${i.qty||1}</td></tr>`).join('')}</tbody>
         </table>
       </div>
       <div style="display:flex;gap:8px;margin-top:10px">
-        <button class="btn btn-primary" onclick='confirmAIImport(${JSON.stringify(parsed)})'>Confirm &amp; import all ${total} items</button>
+        <button class="btn btn-primary" onclick='confirmAIImport(${JSON.stringify(parsed)})'>Confirm &amp; import ${total} items</button>
         <button class="btn" onclick="document.getElementById('ai-preview').innerHTML=''">Cancel</button>
       </div>`;
   } catch(e) {
-    statusEl.textContent = '';
-    btn.disabled = false;
-    previewEl.innerHTML = `<p style="font-size:13px;color:var(--red-text);margin-top:10px">Error: ${e.message}. Check your API key and try again.</p>`;
+    statusEl.textContent=''; btn.disabled=false;
+    previewEl.innerHTML=`<p style="font-size:13px;color:var(--red-text);margin-top:10px">Error: ${e.message}. Check your API key and try again.</p>`;
   }
 }
 
 function confirmAIImport(items) {
-  let count = 0;
-  items.forEach(i => {
-    const qty = Math.max(1, parseInt(i.qty) || 1);
-    for (let q = 0; q < qty; q++) {
-      inventory.push({id:genId(i.cat,i.office),name:i.name,cat:i.cat,office:i.office,status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''});
+  let count=0;
+  items.forEach(i=>{
+    const qty=Math.max(1,parseInt(i.qty)||1);
+    for(let q=0;q<qty;q++){
+      inventory.push({id:genId(i.cat,i.office),name:i.name,type:i.type||'Other Tech',cat:i.cat,office:i.office,status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''});
       count++;
     }
   });
   logAction(`AI bulk import: ${count} items added`);
-  save();
-  renderTable();
-  document.getElementById('ai-preview').innerHTML = `<p style="font-size:13px;color:var(--green-text);margin-top:10px">${count} items imported successfully and added as Available.</p>`;
-  document.getElementById('ai-input').value = '';
+  save(); renderTable();
+  document.getElementById('ai-preview').innerHTML=`<p style="font-size:13px;color:var(--green-text);margin-top:10px">${count} items imported successfully.</p>`;
+  document.getElementById('ai-input').value='';
 }
 
-// ─── Excel Export ─────────────────────────────────────────────────────────────
 function exportExcel() {
   const wb = XLSX.utils.book_new();
-  const headers = ['Item ID','Name','Category','Office','Status','Held by','Date out','Due back','Notes'];
-  
-  // All items sheet
-  const allData = [headers, ...inventory.map(i=>[i.id,i.name,i.cat,i.office,i.status,i.heldBy||'',i.dateOut||'',i.dueBack||'',i.notes||''])];
+  const headers = ['Item ID','Name','Type','Category','Office','Status','Held by','Date out','Due back','Notes'];
+  const allData = [headers,...inventory.map(i=>[i.id,i.name,i.type||'',i.cat,i.office,i.status,i.heldBy||'',i.dateOut||'',i.dueBack||'',i.notes||''])];
   const ws = XLSX.utils.aoa_to_sheet(allData);
-  ws['!cols'] = [14,24,12,10,14,16,12,12,28].map(w=>({wch:w}));
+  ws['!cols']=[14,24,14,12,10,14,16,12,12,28].map(w=>({wch:w}));
   XLSX.utils.book_append_sheet(wb, ws, 'All inventory');
-
-  // Per-office + per-category sheets
   [['UK','Tech'],['UK','Marketing'],['Ireland','Tech'],['Ireland','Marketing']].forEach(([office,cat])=>{
-    const rows = inventory.filter(i=>i.office===office&&i.cat===cat);
-    if (!rows.length) return;
-    const sheetName = (office==='UK'?'UK':'IE')+'-'+cat.slice(0,4);
-    const sd = [headers, ...rows.map(i=>[i.id,i.name,i.cat,i.office,i.status,i.heldBy||'',i.dateOut||'',i.dueBack||'',i.notes||''])];
-    const sw = XLSX.utils.aoa_to_sheet(sd);
-    sw['!cols'] = [14,24,12,10,14,16,12,12,28].map(w=>({wch:w}));
-    XLSX.utils.book_append_sheet(wb, sw, sheetName);
+    const rows=inventory.filter(i=>i.office===office&&i.cat===cat);
+    if(!rows.length)return;
+    const sd=[headers,...rows.map(i=>[i.id,i.name,i.type||'',i.cat,i.office,i.status,i.heldBy||'',i.dateOut||'',i.dueBack||'',i.notes||''])];
+    const sw=XLSX.utils.aoa_to_sheet(sd);
+    sw['!cols']=[14,24,14,12,10,14,16,12,12,28].map(w=>({wch:w}));
+    XLSX.utils.book_append_sheet(wb,sw,(office==='UK'?'UK':'IE')+'-'+cat.slice(0,4));
   });
-
-  // Activity log sheet
-  if (activityLog.length) {
-    const logData = [['Timestamp','Action'], ...activityLog.map(e=>[e.ts,e.msg])];
-    const lw = XLSX.utils.aoa_to_sheet(logData);
-    lw['!cols'] = [{wch:20},{wch:60}];
-    XLSX.utils.book_append_sheet(wb, lw, 'Activity log');
+  if(activityLog.length){
+    const lw=XLSX.utils.aoa_to_sheet([['Timestamp','Action'],...activityLog.map(e=>[e.ts,e.msg])]);
+    lw['!cols']=[{wch:20},{wch:60}];
+    XLSX.utils.book_append_sheet(wb,lw,'Activity log');
   }
-
-  const date = new Date().toISOString().slice(0,10);
-  XLSX.writeFile(wb, `inventory-${date}.xlsx`);
+  XLSX.writeFile(wb,`inventory-${new Date().toISOString().slice(0,10)}.xlsx`);
   logAction(`Excel exported (${inventory.length} items)`);
   save();
 }
 
-// ─── Excel Import ─────────────────────────────────────────────────────────────
-function showImportModal() { openModal('import-modal'); }
-function confirmImport() {
-  const file = document.getElementById('import-file').files[0];
-  if (!file) { document.getElementById('import-status').textContent = 'Please select a file.'; return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    try {
-      const wb = XLSX.read(e.target.result, {type:'binary'});
-      const ws = wb.Sheets['All inventory'] || wb.Sheets[wb.SheetNames[0]];
-      const rows = XLSX.utils.sheet_to_json(ws, {header:1});
-      let imported = 0;
-      rows.slice(1).forEach(r => {
-        if (!r[0] || !r[1]) return;
-        const existing = inventory.find(i => i.id === r[0]);
-        if (existing) {
-          existing.name=r[1]||existing.name; existing.cat=r[2]||existing.cat;
-          existing.office=r[3]||existing.office; existing.status=r[4]||existing.status;
-          existing.heldBy=r[5]||''; existing.dateOut=r[6]||'';
-          existing.dueBack=r[7]||''; existing.notes=r[8]||'';
-        } else {
-          inventory.push({id:r[0],name:r[1],cat:r[2]||'Tech',office:r[3]||'UK',status:r[4]||'Available',heldBy:r[5]||'',dateOut:r[6]||'',dueBack:r[7]||'',notes:r[8]||''});
-        }
+function showImportModal(){openModal('import-modal');}
+function confirmImport(){
+  const file=document.getElementById('import-file').files[0];
+  if(!file){document.getElementById('import-status').textContent='Please select a file.';return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const wb=XLSX.read(e.target.result,{type:'binary'});
+      const ws=wb.Sheets['All inventory']||wb.Sheets[wb.SheetNames[0]];
+      const rows=XLSX.utils.sheet_to_json(ws,{header:1});
+      let imported=0;
+      rows.slice(1).forEach(r=>{
+        if(!r[0]||!r[1])return;
+        const ex=inventory.find(i=>i.id===r[0]);
+        if(ex){ex.name=r[1]||ex.name;ex.type=r[2]||ex.type;ex.cat=r[3]||ex.cat;ex.office=r[4]||ex.office;ex.status=r[5]||ex.status;ex.heldBy=r[6]||'';ex.dateOut=r[7]||'';ex.dueBack=r[8]||'';ex.notes=r[9]||'';}
+        else{inventory.push({id:r[0],name:r[1],type:r[2]||'',cat:r[3]||'Tech',office:r[4]||'UK',status:r[5]||'Available',heldBy:r[6]||'',dateOut:r[7]||'',dueBack:r[8]||'',notes:r[9]||''});}
         imported++;
       });
-      logAction(`Excel import: ${imported} items imported/updated from ${file.name}`);
-      save();
-      renderTable();
-      closeModal('import-modal');
+      logAction(`Excel import: ${imported} items from ${file.name}`);
+      save(); renderTable(); closeModal('import-modal');
       alert(`${imported} items imported successfully.`);
-    } catch(err) {
-      document.getElementById('import-status').textContent = 'Error reading file: ' + err.message;
-    }
+    }catch(err){document.getElementById('import-status').textContent='Error: '+err.message;}
   };
   reader.readAsBinaryString(file);
 }
 
-// ─── Log ─────────────────────────────────────────────────────────────────────
-function renderLog() {
-  const el = document.getElementById('log-list');
-  if (!activityLog.length) { el.innerHTML = '<div class="empty">No activity recorded yet.</div>'; return; }
-  el.innerHTML = activityLog.map(e=>`<div class="log-entry"><span class="log-time">${e.ts}</span><span class="log-msg">${e.msg}</span></div>`).join('');
+function renderLog(){
+  const el=document.getElementById('log-list');
+  if(!activityLog.length){el.innerHTML='<div class="empty">No activity recorded yet.</div>';return;}
+  el.innerHTML=activityLog.map(e=>`<div class="log-entry"><span class="log-time">${e.ts}</span><span class="log-msg">${e.msg}</span></div>`).join('');
 }
-function clearLog() {
-  if (!confirm('Clear all activity log entries?')) return;
-  activityLog = [];
-  save();
-  renderLog();
+function clearLog(){
+  if(!confirm('Clear all activity log entries?'))return;
+  activityLog=[];save();renderLog();
 }
+function showStatus(id,msg,type){
+  const el=document.getElementById(id);
+  el.textContent=msg;el.className='status-msg status-'+type;
+  setTimeout(()=>{el.textContent='';el.className='status-msg';},3000);
+}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-function showStatus(id, msg, type) {
-  const el = document.getElementById(id);
-  el.textContent = msg;
-  el.className = 'status-msg status-' + type;
-  setTimeout(() => { el.textContent = ''; el.className = 'status-msg'; }, 3000);
-}
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
-// ─── Init ─────────────────────────────────────────────────────────────────────
-// Check if key already saved — skip API screen if so
-if (apiKey) { launchApp(); }
+if(apiKey){launchApp();}else{document.getElementById('api-screen').style.display='flex';}
 </script>
 </body>
 </html>
