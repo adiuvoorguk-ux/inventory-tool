@@ -1,26 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inventory Manager — UK &amp; Ireland</title>
+<title>Inventory Manager — UK & Ireland</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#fff;--bg2:#f7f6f3;--bg3:#f0efe9;--text:#1a1a18;--text2:#5a5a56;--text3:#9a9890;--border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.18);--blue-bg:#e6f1fb;--blue-text:#0c447c;--blue-border:#b5d4f4;--green-bg:#eaf3de;--green-text:#27500a;--green-border:#c0dd97;--red-bg:#fcebeb;--red-text:#791f1f;--red-border:#f7c1c1;--amber-bg:#faeeda;--amber-text:#633806;--amber-border:#fac775;--purple-bg:#eeedfe;--purple-text:#3c3489;--purple-border:#cecbf6;--radius:8px;--radius-lg:12px}
 @media(prefers-color-scheme:dark){:root{--bg:#1e1e1c;--bg2:#2a2a27;--bg3:#333330;--text:#e8e6de;--text2:#a8a69e;--text3:#68665e;--border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.18);--blue-bg:#0c2a4a;--blue-text:#85b7eb;--blue-border:#185fa5;--green-bg:#0e2208;--green-text:#c0dd97;--green-border:#3b6d11;--red-bg:#2e0e0e;--red-text:#f09595;--red-border:#a32d2d;--amber-bg:#2a1a04;--amber-text:#fac775;--amber-border:#854f0b;--purple-bg:#1a1838;--purple-text:#afa9ec;--purple-border:#534ab7}}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;background:var(--bg3);color:var(--text);min-height:100vh}
-#api-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
-.api-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:2rem;max-width:480px;width:100%}
-.api-card h1{font-size:20px;font-weight:500;margin-bottom:.5rem}
-.api-card p{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1rem}
-.api-card input{width:100%;font-size:13px;padding:10px 12px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg2);color:var(--text);margin-bottom:10px}
+#setup-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:2rem}
+.setup-card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:2rem;max-width:500px;width:100%}
+.setup-card h1{font-size:20px;font-weight:500;margin-bottom:.5rem}
+.setup-card p{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1rem}
 .tip-box{background:var(--bg2);border-radius:var(--radius);padding:10px 14px;font-size:12px;color:var(--text2);margin-bottom:1rem;line-height:1.6}
 #app{display:none;min-height:100vh;flex-direction:column}
 header{background:var(--bg);border-bottom:0.5px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:10}
 .header-title{font-size:15px;font-weight:500}
 .header-right{display:flex;gap:8px;align-items:center}
+.db-dot{width:8px;height:8px;border-radius:50%;background:var(--green-text);display:inline-block;margin-right:4px}
+.db-dot.red{background:var(--red-text)}
 nav{background:var(--bg);border-bottom:0.5px solid var(--border);padding:0 1.5rem;display:flex;gap:4px;position:sticky;top:52px;z-index:9}
 .nav-tab{padding:10px 14px;font-size:13px;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--text2);cursor:pointer;font-family:inherit}
 .nav-tab.active{color:var(--text);border-bottom-color:var(--text)}
@@ -74,7 +74,7 @@ tr:hover td{background:var(--bg2)}
 .form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
 .form-group{display:flex;flex-direction:column;gap:4px}
 .form-group label{font-size:12px;color:var(--text2)}
-.form-group input,.form-group select,.form-group textarea{font-size:13px;padding:7px 10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:inherit}
+.form-group input,.form-group select{font-size:13px;padding:7px 10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:inherit}
 .form-group input:focus,.form-group select:focus{outline:none;border-color:var(--blue-border)}
 .form-full{grid-column:1/-1}
 .log-entry{display:flex;gap:12px;padding:8px 0;border-bottom:0.5px solid var(--border);font-size:13px}
@@ -93,34 +93,36 @@ tr:hover td{background:var(--bg2)}
 .modal{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:460px;max-height:90vh;overflow-y:auto}
 .modal h3{font-size:15px;font-weight:500;margin-bottom:1rem}
 .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
+.saving{opacity:.5;pointer-events:none}
 @media(max-width:600px){.form-grid,.form-grid-3{grid-template-columns:1fr}.col-held,.col-date,.col-type{display:none}header{padding:0 1rem}main{padding:1rem}}
 </style>
 </head>
 <body>
 
-<div id="api-screen">
-  <div class="api-card">
+<!-- Setup Screen -->
+<div id="setup-screen">
+  <div class="setup-card">
     <h1>Inventory Manager</h1>
-    <p>UK &amp; Ireland — Tech &amp; Marketing stock tracker with AI bulk import</p>
-    <div class="tip-box">Get a free Anthropic API key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue-text)">console.anthropic.com</a> — includes $5 free credit. Your key is stored only in this browser.</div>
+    <p>UK &amp; Ireland — connected to your Supabase database</p>
+    <div class="tip-box">Your data is stored in Supabase and accessible from any browser or device. Enter your API key below to enable AI bulk import.</div>
     <div class="form-group" style="margin-bottom:10px">
-      <label>Anthropic API key</label>
-      <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." autocomplete="off">
+      <label>Anthropic API key (for AI import — optional)</label>
+      <input type="password" id="ai-key-input" placeholder="sk-ant-api03-..." autocomplete="off">
     </div>
-    <div class="inline-row" style="margin-bottom:12px">
-      <button class="btn btn-primary" onclick="saveApiKey()">Start using the app</button>
-      <button class="btn" onclick="skipApiKey()">Skip — use without AI import</button>
+    <div class="inline-row">
+      <button class="btn btn-primary" onclick="launchApp()">Open inventory</button>
     </div>
   </div>
 </div>
 
+<!-- Main App -->
 <div id="app">
   <header>
     <span class="header-title">Inventory Manager — UK &amp; Ireland</span>
     <div class="header-right">
+      <span id="db-status" style="font-size:12px;color:var(--text3)"><span class="db-dot"></span>Connected</span>
       <button class="btn btn-sm btn-success" onclick="exportExcel()">Export Excel</button>
-      <button class="btn btn-sm" onclick="showImportModal()">Import Excel</button>
-      <button class="btn btn-sm" onclick="showApiModal()">API key</button>
+      <button class="btn btn-sm" onclick="showApiModal()">AI key</button>
     </div>
   </header>
   <nav>
@@ -133,16 +135,12 @@ tr:hover td{background:var(--bg2)}
     <div id="tab-dashboard">
       <div class="stats" id="stats-row"></div>
       <div class="filters">
-        <select id="f-office" onchange="renderTable()"><option value="">All offices</option><option value="UK">UK</option><option value="Ireland">Ireland</option></select>
-        <select id="f-cat" onchange="renderTable()"><option value="">All categories</option><option value="Tech">Tech</option><option value="Marketing">Marketing</option></select>
+        <select id="f-office" onchange="renderTable()"><option value="">All offices</option><option>UK</option><option>Ireland</option></select>
+        <select id="f-cat" onchange="renderTable()"><option value="">All categories</option><option>Tech</option><option>Marketing</option></select>
         <select id="f-type" onchange="renderTable()">
           <option value="">All item types</option>
-          <optgroup label="— Tech —">
-            <option>Laptop</option><option>Screen</option><option>Mouse</option><option>Keyboard</option><option>Headset</option><option>Phone</option><option>Tablet</option><option>Dock / Hub</option><option>Cable / Adapter</option><option>Other Tech</option>
-          </optgroup>
-          <optgroup label="— Marketing —">
-            <option>Banner / Stand</option><option>Brochure / Print</option><option>Branded Merch</option><option>Event Kit</option><option>Camera / AV</option><option>Other Marketing</option>
-          </optgroup>
+          <optgroup label="— Tech —"><option>Laptop</option><option>Screen</option><option>Mouse</option><option>Keyboard</option><option>Headset</option><option>Phone</option><option>Tablet</option><option>Dock / Hub</option><option>Cable / Adapter</option><option>Other Tech</option></optgroup>
+          <optgroup label="— Marketing —"><option>Banner / Stand</option><option>Brochure / Print</option><option>Branded Merch</option><option>Event Kit</option><option>Camera / AV</option><option>Other Marketing</option></optgroup>
         </select>
         <select id="f-status" onchange="renderTable()"><option value="">All statuses</option><option>Available</option><option>Checked out</option><option>Returned</option><option>Faulty</option><option>Under repair</option></select>
         <input type="text" id="f-search" placeholder="Search name, serial, person…" oninput="renderTable()">
@@ -156,13 +154,14 @@ tr:hover td{background:var(--bg2)}
             <th class="col-cat sortable" onclick="sortBy('cat')">Category</th>
             <th class="col-office sortable" onclick="sortBy('office')">Office</th>
             <th class="col-status sortable" onclick="sortBy('status')">Status</th>
-            <th class="col-held sortable" onclick="sortBy('heldBy')">Held by</th>
-            <th class="col-date sortable" onclick="sortBy('dateOut')">Date out</th>
+            <th class="col-held sortable" onclick="sortBy('held_by')">Held by</th>
+            <th class="col-date sortable" onclick="sortBy('date_out')">Date out</th>
             <th class="col-actions">Actions</th>
           </tr></thead>
           <tbody id="inv-body"></tbody>
         </table>
         <div id="table-empty" class="empty" style="display:none">No items match your filters.</div>
+        <div id="table-loading" class="empty">Loading inventory…</div>
       </div>
     </div>
 
@@ -182,30 +181,12 @@ tr:hover td{background:var(--bg2)}
         <h3>Add single item</h3>
         <p class="card-sub">Enter the serial number from the product box. Each serial number must be unique.</p>
         <div class="form-grid-3">
-          <div class="form-group">
-            <label>Item name *</label>
-            <input type="text" id="s-name" placeholder="e.g. Dell laptop 15&quot;">
-          </div>
-          <div class="form-group">
-            <label>Serial number *</label>
-            <input type="text" id="s-serial" placeholder="e.g. SN-DL-20240142">
-          </div>
-          <div class="form-group">
-            <label>Category *</label>
-            <select id="s-cat" onchange="updateTypeOptions()"><option value="Tech">Tech</option><option value="Marketing">Marketing</option></select>
-          </div>
-          <div class="form-group">
-            <label>Item type *</label>
-            <select id="s-type"></select>
-          </div>
-          <div class="form-group">
-            <label>Office *</label>
-            <select id="s-office"><option value="UK">UK</option><option value="Ireland">Ireland</option></select>
-          </div>
-          <div class="form-group">
-            <label>Notes (optional)</label>
-            <input type="text" id="s-notes" placeholder="Condition, model, etc.">
-          </div>
+          <div class="form-group"><label>Item name *</label><input type="text" id="s-name" placeholder="e.g. Dell laptop 15&quot;"></div>
+          <div class="form-group"><label>Serial number *</label><input type="text" id="s-serial" placeholder="e.g. SN-DL-20240142"></div>
+          <div class="form-group"><label>Category *</label><select id="s-cat" onchange="updateTypeOptions()"><option value="Tech">Tech</option><option value="Marketing">Marketing</option></select></div>
+          <div class="form-group"><label>Item type *</label><select id="s-type"></select></div>
+          <div class="form-group"><label>Office *</label><select id="s-office"><option value="UK">UK</option><option value="Ireland">Ireland</option></select></div>
+          <div class="form-group"><label>Notes (optional)</label><input type="text" id="s-notes" placeholder="Condition, model, etc."></div>
         </div>
         <div class="inline-row">
           <button class="btn btn-primary" onclick="addSingle()">Add item</button>
@@ -225,21 +206,6 @@ tr:hover td{background:var(--bg2)}
     </div>
 
   </main>
-</div>
-
-<!-- Checkout Modal -->
-<div class="modal-backdrop" id="checkout-modal">
-  <div class="modal">
-    <h3>Check out item</h3>
-    <p id="checkout-item-name" style="font-size:13px;color:var(--text2);margin-bottom:1rem"></p>
-    <div class="form-group" style="margin-bottom:10px"><label>Checked out to *</label><input type="text" id="checkout-name" placeholder="Full name"></div>
-    <div class="form-group" style="margin-bottom:10px"><label>Expected return date</label><input type="date" id="checkout-date"></div>
-    <div class="form-group" style="margin-bottom:10px"><label>Notes</label><input type="text" id="checkout-notes" placeholder="Optional"></div>
-    <div class="modal-footer">
-      <button class="btn" onclick="closeModal('checkout-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="confirmCheckout()">Confirm checkout</button>
-    </div>
-  </div>
 </div>
 
 <!-- Edit Modal -->
@@ -266,124 +232,193 @@ tr:hover td{background:var(--bg2)}
   </div>
 </div>
 
-<!-- Import Modal -->
-<div class="modal-backdrop" id="import-modal">
+<!-- Checkout Modal -->
+<div class="modal-backdrop" id="checkout-modal">
   <div class="modal">
-    <h3>Import from Excel</h3>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Upload a previously exported inventory Excel file.</p>
-    <div class="form-group" style="margin-bottom:12px"><label>Select .xlsx file</label><input type="file" id="import-file" accept=".xlsx,.xls" style="font-size:13px;padding:6px 0;border:none;background:transparent;color:var(--text)"></div>
-    <div id="import-status" class="status-msg" style="margin-bottom:8px"></div>
+    <h3>Check out item</h3>
+    <p id="checkout-item-name" style="font-size:13px;color:var(--text2);margin-bottom:1rem"></p>
+    <div class="form-group" style="margin-bottom:10px"><label>Checked out to *</label><input type="text" id="checkout-name" placeholder="Full name"></div>
+    <div class="form-group" style="margin-bottom:10px"><label>Expected return date</label><input type="date" id="checkout-date"></div>
+    <div class="form-group" style="margin-bottom:10px"><label>Notes</label><input type="text" id="checkout-notes" placeholder="Optional"></div>
     <div class="modal-footer">
-      <button class="btn" onclick="closeModal('import-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="confirmImport()">Import</button>
+      <button class="btn" onclick="closeModal('checkout-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmCheckout()">Confirm checkout</button>
     </div>
   </div>
 </div>
 
-<!-- API Key Modal -->
+<!-- AI Key Modal -->
 <div class="modal-backdrop" id="api-modal">
   <div class="modal">
-    <h3>Update API key</h3>
-    <div class="form-group" style="margin-bottom:12px"><label>Anthropic API key</label><input type="password" id="api-key-update" placeholder="sk-ant-api03-…"></div>
-    <p style="font-size:12px;color:var(--text3);margin-bottom:1rem">Get a key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue-text)">console.anthropic.com</a></p>
+    <h3>Anthropic API key</h3>
+    <div class="form-group" style="margin-bottom:12px"><label>API key (for AI import)</label><input type="password" id="api-key-update" placeholder="sk-ant-api03-…"></div>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:1rem">Get a free key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue-text)">console.anthropic.com</a></p>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal('api-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="updateApiKey()">Save key</button>
+      <button class="btn btn-primary" onclick="updateApiKey()">Save</button>
     </div>
   </div>
 </div>
 
 <script>
-const TECH_TYPES=['Laptop','Screen','Mouse','Keyboard','Headset','Phone','Tablet','Dock / Hub','Cable / Adapter','Other Tech'];
-const MKT_TYPES=['Banner / Stand','Brochure / Print','Branded Merch','Event Kit','Camera / AV','Other Marketing'];
+// ─── Supabase config ────────────────────────────────────────────────────────
+const SB_URL = 'https://hidqhxzszpmyktkkbbzn.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpZHFoeHpzenBteWt0a2tiYnpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NjUzOTQsImV4cCI6MjA5MjQ0MTM5NH0.Z3I65gpAlSPWmO8O5ltol-5W86fWBi4L1BRbEY_fdAY';
 
-function updateTypeOptions(){
-  const cat=document.getElementById('s-cat').value;
-  document.getElementById('s-type').innerHTML=(cat==='Tech'?TECH_TYPES:MKT_TYPES).map(t=>`<option>${t}</option>`).join('');
+const SB_HEADERS = {
+  'Content-Type': 'application/json',
+  'apikey': SB_KEY,
+  'Authorization': 'Bearer ' + SB_KEY,
+  'Prefer': 'return=representation'
+};
+
+async function sbQuery(path, options = {}) {
+  const resp = await fetch(SB_URL + '/rest/v1/' + path, {
+    headers: SB_HEADERS,
+    ...options
+  });
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.message || err.details || `DB error ${resp.status}`);
+  }
+  return resp.status === 204 ? null : resp.json();
 }
 
-let inventory=JSON.parse(localStorage.getItem('inv_data')||'[]');
-let activityLog=JSON.parse(localStorage.getItem('inv_log')||'[]');
-let apiKey=localStorage.getItem('inv_api_key')||'';
-let checkoutTargetId=null;
-let sortField='id', sortDir='asc';
+// ─── State ───────────────────────────────────────────────────────────────────
+let inventory = [];
+let activityLog = JSON.parse(localStorage.getItem('inv_log') || '[]');
+let aiKey = localStorage.getItem('inv_ai_key') || '';
+let checkoutTargetId = null;
+let sortField = 'id', sortDir = 'asc';
 
-if(!inventory.length){
-  inventory=[
-    {id:'MBP-UK-240001',name:'MacBook Pro 14"',type:'Laptop',cat:'Tech',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
-    {id:'DM27-UK-240002',name:'Dell monitor 27"',type:'Screen',cat:'Tech',office:'UK',status:'Checked out',heldBy:'Sarah O.',dateOut:'2026-04-10',dueBack:'2026-04-25',notes:''},
-    {id:'LGH-UK-240003',name:'Logitech headset',type:'Headset',cat:'Tech',office:'UK',status:'Faulty',heldBy:'',dateOut:'',dueBack:'',notes:'Left ear no audio'},
-    {id:'MKB-UK-240004',name:'Magic keyboard',type:'Keyboard',cat:'Tech',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
-    {id:'LMX-UK-240005',name:'Logitech MX mouse',type:'Mouse',cat:'Tech',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
-    {id:'BAN-UK-MKT001',name:'Pull-up banner',type:'Banner / Stand',cat:'Marketing',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
-    {id:'TOT-UK-MKT002',name:'Branded tote bags x20',type:'Branded Merch',cat:'Marketing',office:'UK',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
-    {id:'IPD-IE-240001',name:'iPad Pro 12.9"',type:'Tablet',cat:'Tech',office:'Ireland',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
-    {id:'DOC-IE-240002',name:'USB-C dock',type:'Dock / Hub',cat:'Tech',office:'Ireland',status:'Under repair',heldBy:'',dateOut:'',dueBack:'',notes:'Sent to supplier 2026-04-15'},
-    {id:'EVK-IE-MKT001',name:'Event display kit',type:'Event Kit',cat:'Marketing',office:'Ireland',status:'Checked out',heldBy:'Cian M.',dateOut:'2026-04-18',dueBack:'2026-04-30',notes:'Dublin conference'},
-    {id:'BRC-IE-MKT002',name:'Brochures (500)',type:'Brochure / Print',cat:'Marketing',office:'Ireland',status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:''},
-  ];
-  save();
+const TECH_TYPES = ['Laptop','Screen','Mouse','Keyboard','Headset','Phone','Tablet','Dock / Hub','Cable / Adapter','Other Tech'];
+const MKT_TYPES = ['Banner / Stand','Brochure / Print','Branded Merch','Event Kit','Camera / AV','Other Marketing'];
+
+function updateTypeOptions() {
+  const cat = document.getElementById('s-cat').value;
+  document.getElementById('s-type').innerHTML = (cat === 'Tech' ? TECH_TYPES : MKT_TYPES).map(t => `<option>${t}</option>`).join('');
 }
 
-function save(){localStorage.setItem('inv_data',JSON.stringify(inventory));localStorage.setItem('inv_log',JSON.stringify(activityLog));}
-
-function logAction(msg){
-  const now=new Date();
-  const ts=now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+' '+now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-  activityLog.unshift({ts,msg});
-  if(activityLog.length>200)activityLog=activityLog.slice(0,200);
-  save();
+// ─── Setup ───────────────────────────────────────────────────────────────────
+function launchApp() {
+  const k = document.getElementById('ai-key-input').value.trim();
+  if (k) { aiKey = k; localStorage.setItem('inv_ai_key', k); }
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  updateTypeOptions();
+  loadInventory();
 }
 
-function saveApiKey(){apiKey=document.getElementById('api-key-input').value.trim();if(apiKey)localStorage.setItem('inv_api_key',apiKey);launchApp();}
-function skipApiKey(){launchApp();}
-function launchApp(){document.getElementById('api-screen').style.display='none';document.getElementById('app').style.display='flex';updateTypeOptions();renderTable();}
-function showApiModal(){document.getElementById('api-key-update').value=apiKey;openModal('api-modal');}
-function updateApiKey(){apiKey=document.getElementById('api-key-update').value.trim();if(apiKey)localStorage.setItem('inv_api_key',apiKey);closeModal('api-modal');alert('API key updated.');}
-
-function showTab(name){
-  ['dashboard','add','log'].forEach(t=>{document.getElementById('tab-'+t).style.display=t===name?'block':'none';});
-  document.querySelectorAll('.nav-tab').forEach((el,i)=>{el.classList.toggle('active',['dashboard','add','log'][i]===name);});
-  if(name==='log')renderLog();
-}
-
-function sortBy(field){
-  if(sortField===field){sortDir=sortDir==='asc'?'desc':'asc';}else{sortField=field;sortDir='asc';}
-  document.querySelectorAll('th.sortable').forEach(th=>{th.classList.remove('sort-asc','sort-desc');if(th.getAttribute('onclick')===`sortBy('${field}')`){th.classList.add(sortDir==='asc'?'sort-asc':'sort-desc');}});
+// ─── Load from Supabase ───────────────────────────────────────────────────────
+async function loadInventory() {
+  document.getElementById('table-loading').style.display = 'block';
+  document.getElementById('table-empty').style.display = 'none';
+  try {
+    inventory = await sbQuery('inventory?select=*&order=created_at.asc');
+    setDbStatus(true);
+  } catch(e) {
+    setDbStatus(false);
+    showToast('Could not load inventory: ' + e.message, 'err');
+  }
+  document.getElementById('table-loading').style.display = 'none';
   renderTable();
 }
 
-function statusBadge(s){const cls={'Available':'b-available','Checked out':'b-checkout','Faulty':'b-faulty','Under repair':'b-repair','Returned':'b-returned'}[s]||'';return `<span class="badge ${cls}">${s}</span>`;}
-function catBadge(c){return `<span class="badge ${c==='Tech'?'cat-tech':'cat-mkt'}">${c}</span>`;}
-function officeBadge(o){return `<span class="badge ${o==='UK'?'office-uk':'office-ie'}">${o}</span>`;}
-function typeBadge(t){return `<span class="badge type-badge">${t||'—'}</span>`;}
+function setDbStatus(ok) {
+  const el = document.getElementById('db-status');
+  el.innerHTML = `<span class="db-dot${ok?'':' red'}"></span>${ok ? 'Connected' : 'Offline'}`;
+}
 
-function renderStats(){
-  const total=inventory.length,avail=inventory.filter(i=>i.status==='Available').length,out=inventory.filter(i=>i.status==='Checked out').length,faulty=inventory.filter(i=>i.status==='Faulty'||i.status==='Under repair').length,uk=inventory.filter(i=>i.office==='UK').length,ie=inventory.filter(i=>i.office==='Ireland').length;
+// ─── CRUD ─────────────────────────────────────────────────────────────────────
+async function dbInsert(item) {
+  const row = {
+    id: item.id, name: item.name, type: item.type, cat: item.cat,
+    office: item.office, status: item.status, held_by: item.heldBy || null,
+    date_out: item.dateOut || null, due_back: item.dueBack || null, notes: item.notes || null
+  };
+  const result = await sbQuery('inventory', { method: 'POST', body: JSON.stringify(row) });
+  return result[0];
+}
+
+async function dbUpdate(id, item) {
+  const row = {
+    id: item.id, name: item.name, type: item.type, cat: item.cat,
+    office: item.office, status: item.status, held_by: item.heldBy || null,
+    date_out: item.dateOut || null, due_back: item.dueBack || null, notes: item.notes || null
+  };
+  await sbQuery(`inventory?id=eq.${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify(row) });
+}
+
+async function dbDelete(id) {
+  await sbQuery(`inventory?id=eq.${encodeURIComponent(id)}`, { method: 'DELETE' });
+}
+
+// ─── Activity log (localStorage) ─────────────────────────────────────────────
+function logAction(msg) {
+  const now = new Date();
+  const ts = now.toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}) + ' ' + now.toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'});
+  activityLog.unshift({ts, msg});
+  if (activityLog.length > 200) activityLog = activityLog.slice(0, 200);
+  localStorage.setItem('inv_log', JSON.stringify(activityLog));
+}
+
+// ─── UI helpers ───────────────────────────────────────────────────────────────
+function showTab(name) {
+  ['dashboard','add','log'].forEach(t => { document.getElementById('tab-'+t).style.display = t === name ? 'block' : 'none'; });
+  document.querySelectorAll('.nav-tab').forEach((el,i) => { el.classList.toggle('active', ['dashboard','add','log'][i] === name); });
+  if (name === 'log') renderLog();
+}
+
+function sortBy(field) {
+  if (sortField === field) { sortDir = sortDir === 'asc' ? 'desc' : 'asc'; }
+  else { sortField = field; sortDir = 'asc'; }
+  document.querySelectorAll('th.sortable').forEach(th => {
+    th.classList.remove('sort-asc','sort-desc');
+    if (th.getAttribute('onclick') === `sortBy('${field}')`) th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
+  });
+  renderTable();
+}
+
+function statusBadge(s) { const cls = {'Available':'b-available','Checked out':'b-checkout','Faulty':'b-faulty','Under repair':'b-repair','Returned':'b-returned'}[s]||''; return `<span class="badge ${cls}">${s}</span>`; }
+function catBadge(c) { return `<span class="badge ${c==='Tech'?'cat-tech':'cat-mkt'}">${c}</span>`; }
+function officeBadge(o) { return `<span class="badge ${o==='UK'?'office-uk':'office-ie'}">${o}</span>`; }
+function typeBadge(t) { return `<span class="badge type-badge">${t||'—'}</span>`; }
+
+// Map DB row to app object
+function rowToItem(r) {
+  return { id: r.id, name: r.name, type: r.type||'', cat: r.cat||'Tech', office: r.office||'UK', status: r.status||'Available', heldBy: r.held_by||'', dateOut: r.date_out||'', dueBack: r.due_back||'', notes: r.notes||'' };
+}
+
+function renderStats() {
+  const total=inventory.length, avail=inventory.filter(i=>i.status==='Available').length, out=inventory.filter(i=>i.status==='Checked out').length, faulty=inventory.filter(i=>i.status==='Faulty'||i.status==='Under repair').length, uk=inventory.filter(i=>i.office==='UK').length, ie=inventory.filter(i=>i.office==='Ireland').length;
   document.getElementById('stats-row').innerHTML=`<div class="stat"><div class="stat-label">Total</div><div class="stat-val">${total}</div></div><div class="stat"><div class="stat-label">Available</div><div class="stat-val green">${avail}</div></div><div class="stat"><div class="stat-label">Checked out</div><div class="stat-val blue">${out}</div></div><div class="stat"><div class="stat-label">Faulty/repair</div><div class="stat-val red">${faulty}</div></div><div class="stat"><div class="stat-label">UK</div><div class="stat-val">${uk}</div></div><div class="stat"><div class="stat-label">Ireland</div><div class="stat-val amber">${ie}</div></div>`;
 }
 
-function renderTable(){
-  const fo=document.getElementById('f-office').value,fc=document.getElementById('f-cat').value,ft=document.getElementById('f-type').value,fs=document.getElementById('f-status').value,fq=document.getElementById('f-search').value.toLowerCase();
-  const rows=inventory.filter(i=>{
-    if(fo&&i.office!==fo)return false;
-    if(fc&&i.cat!==fc)return false;
-    if(ft&&i.type!==ft)return false;
-    if(fs&&i.status!==fs)return false;
-    if(fq&&!i.name.toLowerCase().includes(fq)&&!i.id.toLowerCase().includes(fq)&&!(i.heldBy||'').toLowerCase().includes(fq)&&!(i.type||'').toLowerCase().includes(fq))return false;
+function renderTable() {
+  const fo=document.getElementById('f-office').value, fc=document.getElementById('f-cat').value, ft=document.getElementById('f-type').value, fs=document.getElementById('f-status').value, fq=document.getElementById('f-search').value.toLowerCase();
+  const items = inventory.map(rowToItem);
+  const rows = items.filter(i => {
+    if (fo && i.office !== fo) return false;
+    if (fc && i.cat !== fc) return false;
+    if (ft && i.type !== ft) return false;
+    if (fs && i.status !== fs) return false;
+    if (fq && !i.name.toLowerCase().includes(fq) && !i.id.toLowerCase().includes(fq) && !i.heldBy.toLowerCase().includes(fq) && !i.type.toLowerCase().includes(fq)) return false;
     return true;
-  }).sort((a,b)=>{const av=(a[sortField]||'').toLowerCase(),bv=(b[sortField]||'').toLowerCase();if(av<bv)return sortDir==='asc'?-1:1;if(av>bv)return sortDir==='asc'?1:-1;return 0;});
-  const tbody=document.getElementById('inv-body'),empty=document.getElementById('table-empty');
-  if(!rows.length){tbody.innerHTML='';empty.style.display='block';renderStats();return;}
+  }).sort((a,b) => {
+    const av=(a[sortField]||'').toLowerCase(), bv=(b[sortField]||'').toLowerCase();
+    if(av<bv) return sortDir==='asc'?-1:1; if(av>bv) return sortDir==='asc'?1:-1; return 0;
+  });
+  const tbody=document.getElementById('inv-body'), empty=document.getElementById('table-empty');
+  if (!rows.length) { tbody.innerHTML=''; empty.style.display='block'; renderStats(); return; }
   empty.style.display='none';
-  tbody.innerHTML=rows.map(i=>`<tr>
+  tbody.innerHTML = rows.map(i => `<tr>
     <td class="col-id" style="font-family:monospace;font-size:11px;font-weight:500;color:var(--text2)" title="${i.id}">${i.id}</td>
     <td class="col-name" title="${i.name}">${i.name}</td>
     <td class="col-type">${typeBadge(i.type)}</td>
     <td class="col-cat">${catBadge(i.cat)}</td>
     <td class="col-office">${officeBadge(i.office)}</td>
     <td class="col-status"><select class="inline-status" onchange="changeStatus('${i.id}',this.value)">${['Available','Checked out','Returned','Faulty','Under repair'].map(s=>`<option${i.status===s?' selected':''}>${s}</option>`).join('')}</select></td>
-    <td class="col-held" style="color:var(--text2)" title="${i.heldBy||''}">${i.heldBy||'—'}</td>
+    <td class="col-held" style="color:var(--text2)" title="${i.heldBy}">${i.heldBy||'—'}</td>
     <td class="col-date" style="color:var(--text3)">${i.dateOut||'—'}</td>
     <td class="col-actions"><div style="display:flex;gap:4px">
       <button class="btn btn-sm" onclick="openEdit('${i.id}')">Edit</button>
@@ -394,160 +429,230 @@ function renderTable(){
   renderStats();
 }
 
-function changeStatus(id,val){const item=inventory.find(i=>i.id===id);if(!item)return;const old=item.status;item.status=val;if(val==='Available'||val==='Returned'){item.heldBy='';item.dateOut='';item.dueBack='';}logAction(`${item.id} (${item.name}): status "${old}" → "${val}"`);save();renderTable();}
+// ─── Status change ────────────────────────────────────────────────────────────
+async function changeStatus(id, val) {
+  const item = inventory.find(i => i.id === id);
+  if (!item) return;
+  const old = item.status;
+  item.status = val;
+  if (val==='Available'||val==='Returned') { item.held_by=null; item.date_out=null; item.due_back=null; }
+  try {
+    await dbUpdate(id, rowToItem(item));
+    logAction(`${id} (${item.name}): status "${old}" → "${val}"`);
+    renderTable();
+  } catch(e) {
+    item.status = old;
+    showToast('Failed to update status: ' + e.message, 'err');
+    renderTable();
+  }
+}
 
-function openCheckout(id){const item=inventory.find(i=>i.id===id);if(!item)return;checkoutTargetId=id;document.getElementById('checkout-item-name').textContent=`${item.id} — ${item.name}`;document.getElementById('checkout-name').value=item.heldBy||'';document.getElementById('checkout-date').value='';document.getElementById('checkout-notes').value=item.notes||'';openModal('checkout-modal');}
-function confirmCheckout(){const name=document.getElementById('checkout-name').value.trim();if(!name){alert('Please enter who is taking the item.');return;}const item=inventory.find(i=>i.id===checkoutTargetId);if(!item)return;item.status='Checked out';item.heldBy=name;item.dateOut=new Date().toISOString().slice(0,10);item.dueBack=document.getElementById('checkout-date').value;const notes=document.getElementById('checkout-notes').value.trim();if(notes)item.notes=notes;logAction(`${item.id} (${item.name}) checked out to ${name}${item.dueBack?', due back '+item.dueBack:''}`);save();renderTable();closeModal('checkout-modal');}
-
-function openEdit(id){
-  const item=inventory.find(i=>i.id===id);if(!item)return;
-  document.getElementById('edit-orig-id').value=item.id;
-  document.getElementById('edit-id').value=item.id;
-  document.getElementById('edit-name').value=item.name;
-  document.getElementById('edit-type').value=item.type||'Other Tech';
-  document.getElementById('edit-cat').value=item.cat;
-  document.getElementById('edit-office').value=item.office;
-  document.getElementById('edit-status').value=item.status;
-  document.getElementById('edit-heldby').value=item.heldBy||'';
-  document.getElementById('edit-dateout').value=item.dateOut||'';
-  document.getElementById('edit-dueback').value=item.dueBack||'';
-  document.getElementById('edit-notes').value=item.notes||'';
+// ─── Edit ─────────────────────────────────────────────────────────────────────
+function openEdit(id) {
+  const item = rowToItem(inventory.find(i => i.id === id));
+  if (!item) return;
+  document.getElementById('edit-orig-id').value = item.id;
+  document.getElementById('edit-id').value = item.id;
+  document.getElementById('edit-name').value = item.name;
+  document.getElementById('edit-type').value = item.type || 'Other Tech';
+  document.getElementById('edit-cat').value = item.cat;
+  document.getElementById('edit-office').value = item.office;
+  document.getElementById('edit-status').value = item.status;
+  document.getElementById('edit-heldby').value = item.heldBy;
+  document.getElementById('edit-dateout').value = item.dateOut;
+  document.getElementById('edit-dueback').value = item.dueBack;
+  document.getElementById('edit-notes').value = item.notes;
   openModal('edit-modal');
 }
-function saveEdit(){
-  const origId=document.getElementById('edit-orig-id').value;
-  const item=inventory.find(i=>i.id===origId);if(!item)return;
-  const newId=document.getElementById('edit-id').value.trim();
-  if(!newId){alert('Serial / ID cannot be empty.');return;}
-  if(newId!==origId&&inventory.find(i=>i.id===newId)){alert(`Serial number "${newId}" is already used by another item.`);return;}
-  item.id=newId;
-  item.name=document.getElementById('edit-name').value.trim()||item.name;
-  item.type=document.getElementById('edit-type').value;
-  item.cat=document.getElementById('edit-cat').value;
-  item.office=document.getElementById('edit-office').value;
-  item.status=document.getElementById('edit-status').value;
-  item.heldBy=document.getElementById('edit-heldby').value.trim();
-  item.dateOut=document.getElementById('edit-dateout').value;
-  item.dueBack=document.getElementById('edit-dueback').value;
-  item.notes=document.getElementById('edit-notes').value.trim();
-  logAction(`Edited: ${newId} (${item.name})`);
-  save();renderTable();closeModal('edit-modal');
+
+async function saveEdit() {
+  const origId = document.getElementById('edit-orig-id').value;
+  const newId = document.getElementById('edit-id').value.trim();
+  if (!newId) { alert('Serial / ID cannot be empty.'); return; }
+  if (newId !== origId && inventory.find(i => i.id === newId)) { alert(`Serial "${newId}" is already used by another item.`); return; }
+  const updated = {
+    id: newId, name: document.getElementById('edit-name').value.trim(),
+    type: document.getElementById('edit-type').value, cat: document.getElementById('edit-cat').value,
+    office: document.getElementById('edit-office').value, status: document.getElementById('edit-status').value,
+    heldBy: document.getElementById('edit-heldby').value.trim(), dateOut: document.getElementById('edit-dateout').value,
+    dueBack: document.getElementById('edit-dueback').value, notes: document.getElementById('edit-notes').value.trim()
+  };
+  try {
+    await dbUpdate(origId, updated);
+    const idx = inventory.findIndex(i => i.id === origId);
+    if (idx >= 0) inventory[idx] = { ...inventory[idx], ...updated, held_by: updated.heldBy, date_out: updated.dateOut, due_back: updated.dueBack };
+    logAction(`Edited: ${newId} (${updated.name})`);
+    renderTable();
+    closeModal('edit-modal');
+    showToast('Item updated', 'ok');
+  } catch(e) { showToast('Failed to save: ' + e.message, 'err'); }
 }
 
-function deleteItem(id){const item=inventory.find(i=>i.id===id);if(!item)return;if(!confirm(`Delete "${item.name}" (${item.id})?\n\nThis cannot be undone.`))return;inventory=inventory.filter(i=>i.id!==id);logAction(`${id} (${item.name}) deleted`);save();renderTable();}
-
-function addSingle(){
-  const name=document.getElementById('s-name').value.trim();
-  if(!name){showStatus('s-status','Item name is required','err');return;}
-  const serial=document.getElementById('s-serial').value.trim();
-  if(!serial){showStatus('s-status','Serial number is required','err');return;}
-  if(inventory.find(i=>i.id===serial)){showStatus('s-status',`Serial "${serial}" already exists — each item must have a unique serial number`,'err');return;}
-  const cat=document.getElementById('s-cat').value,type=document.getElementById('s-type').value,office=document.getElementById('s-office').value,notes=document.getElementById('s-notes').value.trim();
-  inventory.push({id:serial,name,type,cat,office,status:'Available',heldBy:'',dateOut:'',dueBack:'',notes});
-  logAction(`Added "${name}" — serial: ${serial} (${type}, ${cat}, ${office})`);
-  save();renderTable();
-  document.getElementById('s-name').value='';document.getElementById('s-serial').value='';document.getElementById('s-notes').value='';
-  showStatus('s-status','Item added successfully','ok');
+// ─── Checkout ─────────────────────────────────────────────────────────────────
+function openCheckout(id) {
+  const item = rowToItem(inventory.find(i => i.id === id));
+  if (!item) return;
+  checkoutTargetId = id;
+  document.getElementById('checkout-item-name').textContent = `${item.id} — ${item.name}`;
+  document.getElementById('checkout-name').value = item.heldBy;
+  document.getElementById('checkout-date').value = '';
+  document.getElementById('checkout-notes').value = item.notes;
+  openModal('checkout-modal');
 }
 
-function genTempId(cat,office){
-  const prefix=(office==='UK'?'UK':'IE')+'-'+(cat==='Tech'?'TECH':'MKT')+'-';
-  const nums=inventory.filter(i=>i.id.startsWith(prefix)).map(i=>parseInt(i.id.split('-')[2])||0);
-  return prefix+String((nums.length?Math.max(...nums):0)+1).padStart(4,'0')+'-PENDING';
+async function confirmCheckout() {
+  const name = document.getElementById('checkout-name').value.trim();
+  if (!name) { alert('Please enter who is taking the item.'); return; }
+  const item = rowToItem(inventory.find(i => i.id === checkoutTargetId));
+  if (!item) return;
+  item.status = 'Checked out'; item.heldBy = name;
+  item.dateOut = new Date().toISOString().slice(0,10);
+  item.dueBack = document.getElementById('checkout-date').value;
+  const notes = document.getElementById('checkout-notes').value.trim();
+  if (notes) item.notes = notes;
+  try {
+    await dbUpdate(checkoutTargetId, item);
+    const idx = inventory.findIndex(i => i.id === checkoutTargetId);
+    if (idx >= 0) { inventory[idx].status='Checked out'; inventory[idx].held_by=name; inventory[idx].date_out=item.dateOut; inventory[idx].due_back=item.dueBack; }
+    logAction(`${item.id} (${item.name}) checked out to ${name}${item.dueBack?', due back '+item.dueBack:''}`);
+    renderTable(); closeModal('checkout-modal');
+    showToast('Item checked out', 'ok');
+  } catch(e) { showToast('Failed: ' + e.message, 'err'); }
 }
 
-async function runAIImport(){
-  const text=document.getElementById('ai-input').value.trim();
-  if(!text){alert('Please describe your stock first.');return;}
-  if(!apiKey){if(!confirm('No API key set. Add one now?'))return;showApiModal();return;}
-  const btn=document.getElementById('ai-btn'),statusEl=document.getElementById('ai-status'),previewEl=document.getElementById('ai-preview');
-  btn.disabled=true;statusEl.innerHTML='<span class="loading"></span>Parsing with AI…';previewEl.innerHTML='';
-  const prompt=`You are a stock inventory parser for a company with UK and Ireland offices.
-Parse the description into inventory items. Return ONLY a JSON array, no markdown, no extra text.
-Each object must have: name (string), type (string), cat ("Tech" or "Marketing"), office ("UK" or "Ireland"), qty (integer >= 1).
+// ─── Delete ───────────────────────────────────────────────────────────────────
+async function deleteItem(id) {
+  const item = rowToItem(inventory.find(i => i.id === id));
+  if (!item) return;
+  if (!confirm(`Delete "${item.name}" (${item.id})?\n\nThis removes it from the database permanently.`)) return;
+  try {
+    await dbDelete(id);
+    inventory = inventory.filter(i => i.id !== id);
+    logAction(`${id} (${item.name}) deleted`);
+    renderTable();
+    showToast('Item deleted', 'ok');
+  } catch(e) { showToast('Failed to delete: ' + e.message, 'err'); }
+}
+
+// ─── Add single ───────────────────────────────────────────────────────────────
+async function addSingle() {
+  const name = document.getElementById('s-name').value.trim();
+  if (!name) { showStatus('s-status','Item name is required','err'); return; }
+  const serial = document.getElementById('s-serial').value.trim();
+  if (!serial) { showStatus('s-status','Serial number is required','err'); return; }
+  if (inventory.find(i => i.id === serial)) { showStatus('s-status',`Serial "${serial}" already exists — must be unique`,'err'); return; }
+  const item = { id: serial, name, type: document.getElementById('s-type').value, cat: document.getElementById('s-cat').value, office: document.getElementById('s-office').value, status: 'Available', heldBy: '', dateOut: '', dueBack: '', notes: document.getElementById('s-notes').value.trim() };
+  try {
+    const row = await dbInsert(item);
+    inventory.push(row);
+    logAction(`Added "${name}" — serial: ${serial}`);
+    renderTable();
+    document.getElementById('s-name').value=''; document.getElementById('s-serial').value=''; document.getElementById('s-notes').value='';
+    showStatus('s-status','Item added to database','ok');
+  } catch(e) { showStatus('s-status','Failed: '+e.message,'err'); }
+}
+
+// ─── AI Import ────────────────────────────────────────────────────────────────
+async function runAIImport() {
+  const text = document.getElementById('ai-input').value.trim();
+  if (!text) { alert('Please describe your stock first.'); return; }
+  if (!aiKey) { showApiModal(); return; }
+  const btn=document.getElementById('ai-btn'), statusEl=document.getElementById('ai-status'), previewEl=document.getElementById('ai-preview');
+  btn.disabled=true; statusEl.innerHTML='<span class="loading"></span>Parsing with AI…'; previewEl.innerHTML='';
+  const prompt=`You are a stock inventory parser. Parse the description into items. Return ONLY a JSON array, no markdown.
+Each object: name (string), type (string), cat ("Tech" or "Marketing"), office ("UK" or "Ireland"), qty (integer >= 1).
 Tech types: Laptop, Screen, Mouse, Keyboard, Headset, Phone, Tablet, Dock / Hub, Cable / Adapter, Other Tech
 Marketing types: Banner / Stand, Brochure / Print, Branded Merch, Event Kit, Camera / AV, Other Marketing
-Rules: infer office from context (UK team=UK, Dublin=Ireland, default UK). Infer type from name. qty defaults to 1.
+Infer office from context (UK team=UK, Dublin=Ireland, default UK). Infer type from name. qty defaults to 1.
 Description: "${text}"`;
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':apiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+  try {
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':aiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
     if(!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error?.message||`API error ${resp.status}`);}
     const data=await resp.json();
     const parsed=JSON.parse(data.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim());
-    statusEl.textContent='';btn.disabled=false;
-    if(!parsed.length){previewEl.innerHTML='<p style="font-size:13px;color:var(--text3);margin-top:10px">No items found — try rephrasing.</p>';return;}
+    statusEl.textContent=''; btn.disabled=false;
     const total=parsed.reduce((a,i)=>a+(i.qty||1),0);
     previewEl.innerHTML=`<p style="font-size:13px;color:var(--text2);margin-top:12px;margin-bottom:8px">Found <strong>${total} items</strong> — review and confirm:</p>
       <div style="overflow-x:auto;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg)">
         <table><thead><tr><th>Name</th><th>Type</th><th>Category</th><th>Office</th><th style="width:50px">Qty</th></tr></thead>
         <tbody>${parsed.map(i=>`<tr><td>${i.name}</td><td>${typeBadge(i.type)}</td><td>${catBadge(i.cat)}</td><td>${officeBadge(i.office)}</td><td>${i.qty||1}</td></tr>`).join('')}</tbody></table>
       </div>
-      <p style="font-size:12px;color:var(--amber-text);margin-top:8px">⚠ Serial numbers will be marked PENDING — update them from the dashboard after physically labelling each item.</p>
+      <p style="font-size:12px;color:var(--amber-text);margin-top:8px">⚠ Serial numbers will be auto-generated — update them via Edit after labelling.</p>
       <div style="display:flex;gap:8px;margin-top:10px">
-        <button class="btn btn-primary" onclick='confirmAIImport(${JSON.stringify(parsed)})'>Confirm &amp; import ${total} items</button>
+        <button class="btn btn-primary" onclick='confirmAIImport(${JSON.stringify(parsed)})'>Save ${total} items to database</button>
         <button class="btn" onclick="document.getElementById('ai-preview').innerHTML=''">Cancel</button>
       </div>`;
-  }catch(e){statusEl.textContent='';btn.disabled=false;previewEl.innerHTML=`<p style="font-size:13px;color:var(--red-text);margin-top:10px">Error: ${e.message}</p>`;}
+  } catch(e) { statusEl.textContent=''; btn.disabled=false; previewEl.innerHTML=`<p style="font-size:13px;color:var(--red-text);margin-top:10px">Error: ${e.message}</p>`; }
 }
 
-function confirmAIImport(items){
-  let count=0;
-  items.forEach(i=>{const qty=Math.max(1,parseInt(i.qty)||1);for(let q=0;q<qty;q++){inventory.push({id:genTempId(i.cat,i.office),name:i.name,type:i.type||'Other Tech',cat:i.cat,office:i.office,status:'Available',heldBy:'',dateOut:'',dueBack:'',notes:'Serial number pending — click Edit to update'});count++;}});
-  logAction(`AI bulk import: ${count} items added — serial numbers pending`);
-  save();renderTable();
-  document.getElementById('ai-preview').innerHTML=`<p style="font-size:13px;color:var(--green-text);margin-top:10px">${count} items imported. Click <strong>Edit</strong> on each row to set the real serial number.</p>`;
+async function confirmAIImport(items) {
+  const previewEl = document.getElementById('ai-preview');
+  previewEl.innerHTML = '<p style="font-size:13px;color:var(--text2);margin-top:10px"><span class="loading"></span>Saving to database…</p>';
+  let count=0, errors=0;
+  for (const i of items) {
+    const qty=Math.max(1,parseInt(i.qty)||1);
+    for (let q=0;q<qty;q++) {
+      const tempId = (i.office==='UK'?'UK':'IE')+'-'+(i.cat==='Tech'?'TECH':'MKT')+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
+      const item = { id: tempId, name: i.name, type: i.type||'Other Tech', cat: i.cat, office: i.office, status: 'Available', heldBy: '', dateOut: '', dueBack: '', notes: 'Serial pending — update via Edit' };
+      try { const row = await dbInsert(item); inventory.push(row); count++; }
+      catch(e) { errors++; }
+    }
+  }
+  logAction(`AI import: ${count} items added to database${errors?`, ${errors} failed`:''}`);
+  renderTable();
+  previewEl.innerHTML=`<p style="font-size:13px;color:var(--green-text);margin-top:10px">${count} items saved to database. Click <strong>Edit</strong> on each row to set serial numbers.</p>`;
   document.getElementById('ai-input').value='';
 }
 
-function exportExcel(){
+// ─── Export ───────────────────────────────────────────────────────────────────
+function exportExcel() {
   const wb=XLSX.utils.book_new();
   const headers=['Serial / ID','Name','Type','Category','Office','Status','Held by','Date out','Due back','Notes'];
-  const allData=[headers,...inventory.map(i=>[i.id,i.name,i.type||'',i.cat,i.office,i.status,i.heldBy||'',i.dateOut||'',i.dueBack||'',i.notes||''])];
-  const ws=XLSX.utils.aoa_to_sheet(allData);ws['!cols']=[16,24,14,12,10,14,16,12,12,28].map(w=>({wch:w}));
+  const items = inventory.map(rowToItem);
+  const allData=[headers,...items.map(i=>[i.id,i.name,i.type,i.cat,i.office,i.status,i.heldBy,i.dateOut,i.dueBack,i.notes])];
+  const ws=XLSX.utils.aoa_to_sheet(allData); ws['!cols']=[16,24,14,12,10,14,16,12,12,28].map(w=>({wch:w}));
   XLSX.utils.book_append_sheet(wb,ws,'All inventory');
   [['UK','Tech'],['UK','Marketing'],['Ireland','Tech'],['Ireland','Marketing']].forEach(([office,cat])=>{
-    const rows=inventory.filter(i=>i.office===office&&i.cat===cat);if(!rows.length)return;
-    const sd=[headers,...rows.map(i=>[i.id,i.name,i.type||'',i.cat,i.office,i.status,i.heldBy||'',i.dateOut||'',i.dueBack||'',i.notes||''])];
-    const sw=XLSX.utils.aoa_to_sheet(sd);sw['!cols']=[16,24,14,12,10,14,16,12,12,28].map(w=>({wch:w}));
+    const rows=items.filter(i=>i.office===office&&i.cat===cat); if(!rows.length)return;
+    const sw=XLSX.utils.aoa_to_sheet([headers,...rows.map(i=>[i.id,i.name,i.type,i.cat,i.office,i.status,i.heldBy,i.dateOut,i.dueBack,i.notes])]);
+    sw['!cols']=[16,24,14,12,10,14,16,12,12,28].map(w=>({wch:w}));
     XLSX.utils.book_append_sheet(wb,sw,(office==='UK'?'UK':'IE')+'-'+cat.slice(0,4));
   });
-  if(activityLog.length){const lw=XLSX.utils.aoa_to_sheet([['Timestamp','Action'],...activityLog.map(e=>[e.ts,e.msg])]);lw['!cols']=[{wch:20},{wch:60}];XLSX.utils.book_append_sheet(wb,lw,'Activity log');}
   XLSX.writeFile(wb,`inventory-${new Date().toISOString().slice(0,10)}.xlsx`);
-  logAction(`Excel exported (${inventory.length} items)`);save();
+  logAction(`Excel exported (${inventory.length} items)`);
 }
 
-function showImportModal(){openModal('import-modal');}
-function confirmImport(){
-  const file=document.getElementById('import-file').files[0];
-  if(!file){document.getElementById('import-status').textContent='Please select a file.';return;}
-  const reader=new FileReader();
-  reader.onload=e=>{
-    try{
-      const wb=XLSX.read(e.target.result,{type:'binary'});
-      const ws=wb.Sheets['All inventory']||wb.Sheets[wb.SheetNames[0]];
-      const rows=XLSX.utils.sheet_to_json(ws,{header:1});
-      let imported=0;
-      rows.slice(1).forEach(r=>{
-        if(!r[0]||!r[1])return;
-        const ex=inventory.find(i=>i.id===r[0]);
-        if(ex){ex.name=r[1]||ex.name;ex.type=r[2]||ex.type;ex.cat=r[3]||ex.cat;ex.office=r[4]||ex.office;ex.status=r[5]||ex.status;ex.heldBy=r[6]||'';ex.dateOut=r[7]||'';ex.dueBack=r[8]||'';ex.notes=r[9]||'';}
-        else{inventory.push({id:r[0],name:r[1],type:r[2]||'',cat:r[3]||'Tech',office:r[4]||'UK',status:r[5]||'Available',heldBy:r[6]||'',dateOut:r[7]||'',dueBack:r[8]||'',notes:r[9]||''});}
-        imported++;
-      });
-      logAction(`Excel import: ${imported} items from ${file.name}`);
-      save();renderTable();closeModal('import-modal');alert(`${imported} items imported.`);
-    }catch(err){document.getElementById('import-status').textContent='Error: '+err.message;}
-  };
-  reader.readAsBinaryString(file);
+// ─── Log ──────────────────────────────────────────────────────────────────────
+function renderLog() {
+  const el=document.getElementById('log-list');
+  if(!activityLog.length){el.innerHTML='<div class="empty">No activity recorded yet.</div>';return;}
+  el.innerHTML=activityLog.map(e=>`<div class="log-entry"><span class="log-time">${e.ts}</span><span class="log-msg">${e.msg}</span></div>`).join('');
 }
+function clearLog() { if(!confirm('Clear all activity log entries?'))return; activityLog=[]; localStorage.setItem('inv_log','[]'); renderLog(); }
 
-function renderLog(){const el=document.getElementById('log-list');if(!activityLog.length){el.innerHTML='<div class="empty">No activity recorded yet.</div>';return;}el.innerHTML=activityLog.map(e=>`<div class="log-entry"><span class="log-time">${e.ts}</span><span class="log-msg">${e.msg}</span></div>`).join('');}
-function clearLog(){if(!confirm('Clear all activity log entries?'))return;activityLog=[];save();renderLog();}
+// ─── Toast / Status ───────────────────────────────────────────────────────────
+function showToast(msg, type) {
+  let t=document.getElementById('toast');
+  if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:1.5rem;right:1.5rem;padding:10px 16px;border-radius:8px;font-size:13px;z-index:999;border:0.5px solid;max-width:300px';document.body.appendChild(t);}
+  t.textContent=msg;
+  t.style.background=type==='ok'?'var(--green-bg)':'var(--red-bg)';
+  t.style.color=type==='ok'?'var(--green-text)':'var(--red-text)';
+  t.style.borderColor=type==='ok'?'var(--green-border)':'var(--red-border)';
+  t.style.display='block';
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>{t.style.display='none';},3000);
+}
 function showStatus(id,msg,type){const el=document.getElementById(id);el.textContent=msg;el.className='status-msg status-'+type;setTimeout(()=>{el.textContent='';el.className='status-msg';},4000);}
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
+function showApiModal(){document.getElementById('api-key-update').value=aiKey;openModal('api-modal');}
+function updateApiKey(){aiKey=document.getElementById('api-key-update').value.trim();if(aiKey)localStorage.setItem('inv_ai_key',aiKey);closeModal('api-modal');}
 
-if(apiKey){launchApp();}else{document.getElementById('api-screen').style.display='flex';}
+// ─── Init ─────────────────────────────────────────────────────────────────────
+// Auto-launch if AI key already saved (skip setup screen)
+if(aiKey){document.getElementById('ai-key-input').value=aiKey;}
+// Always show setup screen first (it's quick)
+document.getElementById('setup-screen').style.display='flex';
 </script>
 </body>
 </html>
