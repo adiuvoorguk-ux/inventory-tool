@@ -103,6 +103,16 @@ tr:hover td{background:var(--bg2)}
 .checkout-list{margin-top:12px;font-size:13px}
 .checkout-row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:6px;background:var(--bg2)}
 @media(max-width:600px){.form-grid,.form-grid-3{grid-template-columns:1fr}.col-cat,.col-type{display:none}header{padding:0 1rem}main{padding:1rem}}
+
+.col-img{width:52px}
+.item-thumb{width:36px;height:36px;object-fit:cover;border-radius:6px;cursor:pointer;border:0.5px solid var(--border);transition:transform .15s}
+.item-thumb:hover{transform:scale(1.1)}
+.img-placeholder{width:36px;height:36px;border-radius:6px;border:0.5px dashed var(--border2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--text3);position:relative;overflow:hidden}
+.img-placeholder:hover{border-color:var(--blue-border);color:var(--blue-text)}
+.img-placeholder input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.img-lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:center;justify-content:center;cursor:pointer}
+.img-lightbox.open{display:flex}
+.img-lightbox img{max-width:90vw;max-height:85vh;border-radius:var(--radius-lg);object-fit:contain}
 </style>
 </head>
 <body>
@@ -168,6 +178,7 @@ tr:hover td{background:var(--bg2)}
       <div class="table-wrap">
         <table>
           <thead><tr>
+            <th class="col-img"></th>
             <th class="col-id sortable" onclick="sortBy('id')">Serial / ID</th>
             <th class="col-name sortable" onclick="sortBy('name')">Item name</th>
             <th class="col-type sortable" onclick="sortBy('type')">Type</th>
@@ -372,6 +383,10 @@ function renderTable(){
     const qty=i.quantity||1,avail=i.qty_available??qty;
     const ac=avail===0?'var(--red-text)':avail<qty?'var(--amber-text)':'var(--green-text)';
     return `<tr>
+      <td class="col-img">${i.image_url
+        ? `<img class="item-thumb" src="${i.image_url}" onclick="openLightbox('${i.image_url}')" title="Click to view">`
+        : `<div class="img-placeholder" title="Click to upload image"><input type="file" accept="image/*" onchange="uploadImage('${i.id}',this)">📷</div>`
+      }</td>
       <td class="col-id" style="font-family:monospace;font-size:11px;font-weight:500;color:var(--text2)" title="${i.id}">${i.id}</td>
       <td class="col-name" title="${i.name}">${i.name}</td>
       <td class="col-type">${typeBadge(i.type)}</td>
@@ -414,7 +429,7 @@ async function runAICommand(){
   previewEl.innerHTML='';
 
   // Build a compact snapshot of current inventory for context
-  const snapshot=inventory.map(i=>`id:${i.id}|name:${i.name}|type:${i.type||''}|cat:${i.cat}|office:${i.office}|qty:${i.quantity||1}|avail:${i.qty_available??i.quantity??1}|status:${computeStatus(i)}`).join('\n');
+  const snapshot=inventory.map(i=>[i.id,i.name,i.type||'',i.cat,i.office,i.quantity||1,i.qty_available??i.quantity??1,computeStatus(i)].map(v=>String(v).replace(/[|`\n\r"\\]/g,' ')).join('|')).join('\n');
 
   const systemPrompt=`You are an inventory management AI. You receive plain English commands and must return a JSON array of operations to perform on the inventory database.
 
@@ -703,8 +718,43 @@ function closeModal(id){document.getElementById(id).classList.remove('open');}
 function showApiModal(){document.getElementById('api-key-update').value=aiKey;openModal('api-modal');}
 function updateApiKey(){aiKey=document.getElementById('api-key-update').value.trim();if(aiKey)localStorage.setItem('inv_ai_key',aiKey);closeModal('api-modal');toast('API key saved','ok');}
 
+
+async function uploadImage(id, input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { toast('Image must be under 5MB', 'err'); return; }
+  const ext = file.name.split('.').pop().toLowerCase();
+  const path = id.replace(/[^a-zA-Z0-9-_]/g, '_') + '_' + Date.now() + '.' + ext;
+  try {
+    // Upload to Supabase Storage
+    const uploadResp = await fetch(
+      `${SB_URL}/storage/v1/object/item-images/${path}`,
+      { method: 'POST', headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': file.type, 'x-upsert': 'true' },
+        body: file }
+    );
+    if (!uploadResp.ok) { const e = await uploadResp.json().catch(()=>({})); throw new Error(e.message||'Upload failed'); }
+    const imageUrl = `${SB_URL}/storage/v1/object/public/item-images/${path}`;
+    // Save URL to database
+    await sb(`inventory?id=eq.${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify({ image_url: imageUrl }) });
+    const item = inventory.find(i => i.id === id);
+    if (item) item.image_url = imageUrl;
+    logAction(`Image uploaded for ${id}`);
+    renderTable();
+    toast('Image uploaded', 'ok');
+  } catch(e) { toast('Upload failed: ' + e.message, 'err'); }
+}
+
+function openLightbox(url) {
+  document.getElementById('lightbox-img').src = url;
+  openModal('img-lightbox');
+}
 if(aiKey)document.getElementById('ai-key-input').value=aiKey;
 document.getElementById('setup-screen').style.display='flex';
 </script>
+
+<!-- Image Lightbox -->
+<div class="img-lightbox" id="img-lightbox" onclick="closeModal('img-lightbox')">
+  <img id="lightbox-img" src="" alt="Item image">
+</div>
 </body>
 </html>
