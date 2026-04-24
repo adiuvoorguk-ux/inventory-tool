@@ -52,24 +52,31 @@ th.sort-desc::after{content:' ↓';font-size:10px}
 td{padding:10px 12px;border-bottom:0.5px solid var(--border);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--bg2)}
-.col-id{width:130px}.col-name{width:auto;min-width:130px}.col-type{width:110px}.col-cat{width:95px}.col-office{width:80px}.col-status{width:125px}.col-held{width:105px}.col-date{width:90px}.col-actions{width:160px}
+.col-id{width:120px}.col-name{width:auto;min-width:130px}.col-type{width:100px}.col-cat{width:90px}.col-office{width:75px}.col-qty{width:70px}.col-avail{width:75px}.col-status{width:115px}.col-actions{width:150px}
 .badge{display:inline-block;font-size:11px;font-weight:500;padding:3px 8px;border-radius:20px;border:0.5px solid;white-space:nowrap}
 .b-available{background:var(--green-bg);color:var(--green-text);border-color:var(--green-border)}
-.b-checkout{background:var(--blue-bg);color:var(--blue-text);border-color:var(--blue-border)}
+.b-partial{background:var(--amber-bg);color:var(--amber-text);border-color:var(--amber-border)}
+.b-out{background:var(--blue-bg);color:var(--blue-text);border-color:var(--blue-border)}
 .b-faulty{background:var(--red-bg);color:var(--red-text);border-color:var(--red-border)}
-.b-repair{background:var(--amber-bg);color:var(--amber-text);border-color:var(--amber-border)}
-.b-returned{background:var(--purple-bg);color:var(--purple-text);border-color:var(--purple-border)}
 .cat-tech{background:var(--blue-bg);color:var(--blue-text);border-color:var(--blue-border)}
 .cat-mkt{background:var(--purple-bg);color:var(--purple-text);border-color:var(--purple-border)}
 .office-uk{background:var(--green-bg);color:var(--green-text);border-color:var(--green-border)}
 .office-ie{background:var(--amber-bg);color:var(--amber-text);border-color:var(--amber-border)}
 .type-badge{background:var(--bg2);color:var(--text2);border-color:var(--border2)}
-.inline-status{font-size:12px;padding:3px 6px;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg);color:var(--text);font-family:inherit;cursor:pointer;width:100%}
 .card{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
 .card h3{font-size:15px;font-weight:500;margin-bottom:.25rem}
 .card-sub{font-size:12px;color:var(--text2);margin-bottom:1rem}
-.ai-box{background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:1rem}
-.ai-box textarea{width:100%;font-size:13px;padding:10px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg);color:var(--text);resize:vertical;min-height:80px;font-family:inherit;line-height:1.5}
+.ai-cmd-bar{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1rem;display:flex;gap:10px;align-items:flex-start}
+.ai-cmd-bar textarea{flex:1;font-size:13px;padding:8px 12px;border:0.5px solid var(--border2);border-radius:var(--radius);background:var(--bg2);color:var(--text);resize:none;font-family:inherit;line-height:1.5;min-height:38px;max-height:120px}
+.ai-cmd-bar textarea:focus{outline:none;border-color:var(--blue-border)}
+.ai-cmd-result{margin-top:10px;font-size:13px}
+.op-add{color:var(--green-text)}.op-edit{color:var(--blue-text)}.op-del{color:var(--red-text)}
+.preview-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius)}
+.preview-table th{background:var(--bg2);padding:6px 10px;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--text3)}
+.preview-table td{padding:6px 10px;border-top:0.5px solid var(--border)}
+.preview-table tr.del-row td{background:var(--red-bg);color:var(--red-text);text-decoration:line-through}
+.preview-table tr.edit-row td{background:var(--blue-bg);color:var(--blue-text)}
+.preview-table tr.add-row td{background:var(--green-bg);color:var(--green-text)}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
 .form-group{display:flex;flex-direction:column;gap:4px}
@@ -93,20 +100,20 @@ tr:hover td{background:var(--bg2)}
 .modal{background:var(--bg);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;width:100%;max-width:460px;max-height:90vh;overflow-y:auto}
 .modal h3{font-size:15px;font-weight:500;margin-bottom:1rem}
 .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1rem}
-.saving{opacity:.5;pointer-events:none}
-@media(max-width:600px){.form-grid,.form-grid-3{grid-template-columns:1fr}.col-held,.col-date,.col-type{display:none}header{padding:0 1rem}main{padding:1rem}}
+.checkout-list{margin-top:12px;font-size:13px}
+.checkout-row{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:6px;background:var(--bg2)}
+@media(max-width:600px){.form-grid,.form-grid-3{grid-template-columns:1fr}.col-cat,.col-type{display:none}header{padding:0 1rem}main{padding:1rem}}
 </style>
 </head>
 <body>
 
-<!-- Setup Screen -->
 <div id="setup-screen">
   <div class="setup-card">
     <h1>Inventory Manager</h1>
     <p>UK &amp; Ireland — connected to your Supabase database</p>
-    <div class="tip-box">Your data is stored in Supabase and accessible from any browser or device. Enter your API key below to enable AI bulk import.</div>
+    <div class="tip-box">Your data is stored in Supabase — accessible from any device. Add your Anthropic key to enable the AI command bar (add, edit, delete using plain English).</div>
     <div class="form-group" style="margin-bottom:10px">
-      <label>Anthropic API key (for AI import — optional)</label>
+      <label>Anthropic API key (required for AI features)</label>
       <input type="password" id="ai-key-input" placeholder="sk-ant-api03-..." autocomplete="off">
     </div>
     <div class="inline-row">
@@ -115,7 +122,6 @@ tr:hover td{background:var(--bg2)}
   </div>
 </div>
 
-<!-- Main App -->
 <div id="app">
   <header>
     <span class="header-title">Inventory Manager — UK &amp; Ireland</span>
@@ -132,7 +138,21 @@ tr:hover td{background:var(--bg2)}
   </nav>
   <main>
 
+    <!-- Dashboard -->
     <div id="tab-dashboard">
+      <!-- AI Command Bar -->
+      <div class="ai-cmd-bar">
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:500;margin-bottom:6px;color:var(--text2)">✦ AI Command — add, edit or delete using plain English</div>
+          <div style="display:flex;gap:8px">
+            <textarea id="ai-cmd-input" rows="1" placeholder="e.g. &quot;Add 5 Dell laptops to UK tech&quot; or &quot;Delete all faulty items&quot; or &quot;Change all Ireland headsets to available&quot;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();runAICommand();}"></textarea>
+            <button class="btn btn-primary" onclick="runAICommand()" id="ai-cmd-btn" style="align-self:flex-end">Run</button>
+          </div>
+          <div id="ai-cmd-status" style="font-size:12px;color:var(--text2);margin-top:6px"></div>
+          <div id="ai-cmd-preview"></div>
+        </div>
+      </div>
+
       <div class="stats" id="stats-row"></div>
       <div class="filters">
         <select id="f-office" onchange="renderTable()"><option value="">All offices</option><option>UK</option><option>Ireland</option></select>
@@ -142,7 +162,7 @@ tr:hover td{background:var(--bg2)}
           <optgroup label="— Tech —"><option>Laptop</option><option>Screen</option><option>Mouse</option><option>Keyboard</option><option>Headset</option><option>Phone</option><option>Tablet</option><option>Dock / Hub</option><option>Cable / Adapter</option><option>Other Tech</option></optgroup>
           <optgroup label="— Marketing —"><option>Banner / Stand</option><option>Brochure / Print</option><option>Branded Merch</option><option>Event Kit</option><option>Camera / AV</option><option>Other Marketing</option></optgroup>
         </select>
-        <select id="f-status" onchange="renderTable()"><option value="">All statuses</option><option>Available</option><option>Checked out</option><option>Returned</option><option>Faulty</option><option>Under repair</option></select>
+        <select id="f-status" onchange="renderTable()"><option value="">All statuses</option><option>Available</option><option>Partially out</option><option>All checked out</option><option>Faulty</option><option>Under repair</option></select>
         <input type="text" id="f-search" placeholder="Search name, serial, person…" oninput="renderTable()">
       </div>
       <div class="table-wrap">
@@ -153,9 +173,9 @@ tr:hover td{background:var(--bg2)}
             <th class="col-type sortable" onclick="sortBy('type')">Type</th>
             <th class="col-cat sortable" onclick="sortBy('cat')">Category</th>
             <th class="col-office sortable" onclick="sortBy('office')">Office</th>
-            <th class="col-status sortable" onclick="sortBy('status')">Status</th>
-            <th class="col-held sortable" onclick="sortBy('held_by')">Held by</th>
-            <th class="col-date sortable" onclick="sortBy('date_out')">Date out</th>
+            <th class="col-qty sortable" onclick="sortBy('quantity')">Total</th>
+            <th class="col-avail sortable" onclick="sortBy('qty_available')">Avail</th>
+            <th class="col-status">Status</th>
             <th class="col-actions">Actions</th>
           </tr></thead>
           <tbody id="inv-body"></tbody>
@@ -165,43 +185,35 @@ tr:hover td{background:var(--bg2)}
       </div>
     </div>
 
+    <!-- Add stock -->
     <div id="tab-add" style="display:none">
-      <div class="ai-box">
-        <h3 style="margin-bottom:.25rem">AI bulk import</h3>
-        <p class="card-sub">Describe your stock in plain English — AI parses it into items automatically.</p>
-        <textarea id="ai-input" placeholder="e.g. 5 Dell laptops and 3 monitors for the UK tech team, plus 10 branded tote bags for Ireland marketing"></textarea>
-        <div class="inline-row" style="margin-top:8px">
-          <button class="btn btn-primary" onclick="runAIImport()" id="ai-btn">Parse with AI</button>
-          <span id="ai-status" style="font-size:12px;color:var(--text2)"></span>
-        </div>
-        <div id="ai-preview"></div>
-      </div>
-      <hr class="divider">
       <div class="card">
-        <h3>Add single item</h3>
-        <p class="card-sub">Enter the serial number from the product box. Each serial number must be unique.</p>
+        <h3>Add item manually</h3>
+        <p class="card-sub">Serial number is optional — leave blank to auto-generate. Set quantity for identical items grouped in one row.</p>
         <div class="form-grid-3">
-          <div class="form-group"><label>Item name *</label><input type="text" id="s-name" placeholder="e.g. Dell laptop 15&quot;"></div>
-          <div class="form-group"><label>Serial number *</label><input type="text" id="s-serial" placeholder="e.g. SN-DL-20240142"></div>
+          <div class="form-group form-full"><label>Item name *</label><input type="text" id="s-name" placeholder="e.g. Dell Laptop 15&quot;"></div>
+          <div class="form-group"><label>Serial number (optional)</label><input type="text" id="s-serial" placeholder="Leave blank to auto-generate"></div>
+          <div class="form-group"><label>Quantity *</label><input type="number" id="s-qty" value="1" min="1" max="9999"></div>
           <div class="form-group"><label>Category *</label><select id="s-cat" onchange="updateTypeOptions()"><option value="Tech">Tech</option><option value="Marketing">Marketing</option></select></div>
           <div class="form-group"><label>Item type *</label><select id="s-type"></select></div>
           <div class="form-group"><label>Office *</label><select id="s-office"><option value="UK">UK</option><option value="Ireland">Ireland</option></select></div>
-          <div class="form-group"><label>Notes (optional)</label><input type="text" id="s-notes" placeholder="Condition, model, etc."></div>
+          <div class="form-group"><label>Notes (optional)</label><input type="text" id="s-notes" placeholder="Condition, model detail…"></div>
         </div>
         <div class="inline-row">
-          <button class="btn btn-primary" onclick="addSingle()">Add item</button>
+          <button class="btn btn-primary" onclick="addSingle()">Add to inventory</button>
           <span id="s-status" class="status-msg"></span>
         </div>
       </div>
     </div>
 
+    <!-- Log -->
     <div id="tab-log" style="display:none">
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
           <h3>Activity log</h3>
           <button class="btn btn-sm btn-danger" onclick="clearLog()">Clear log</button>
         </div>
-        <div id="log-list"><div class="empty">No activity recorded yet.</div></div>
+        <div id="log-list"><div class="empty">No activity yet.</div></div>
       </div>
     </div>
 
@@ -216,13 +228,12 @@ tr:hover td{background:var(--bg2)}
     <div class="form-grid">
       <div class="form-group"><label>Item name *</label><input type="text" id="edit-name"></div>
       <div class="form-group"><label>Serial / ID *</label><input type="text" id="edit-id"></div>
+      <div class="form-group"><label>Total quantity</label><input type="number" id="edit-qty" min="1"></div>
+      <div class="form-group"><label>Available qty</label><input type="number" id="edit-avail" min="0"></div>
       <div class="form-group"><label>Category</label><select id="edit-cat"><option value="Tech">Tech</option><option value="Marketing">Marketing</option></select></div>
       <div class="form-group"><label>Item type</label><select id="edit-type"><option>Laptop</option><option>Screen</option><option>Mouse</option><option>Keyboard</option><option>Headset</option><option>Phone</option><option>Tablet</option><option>Dock / Hub</option><option>Cable / Adapter</option><option>Other Tech</option><option>Banner / Stand</option><option>Brochure / Print</option><option>Branded Merch</option><option>Event Kit</option><option>Camera / AV</option><option>Other Marketing</option></select></div>
       <div class="form-group"><label>Office</label><select id="edit-office"><option value="UK">UK</option><option value="Ireland">Ireland</option></select></div>
-      <div class="form-group"><label>Status</label><select id="edit-status"><option>Available</option><option>Checked out</option><option>Returned</option><option>Faulty</option><option>Under repair</option></select></div>
-      <div class="form-group"><label>Held by</label><input type="text" id="edit-heldby" placeholder="Person name"></div>
-      <div class="form-group"><label>Date out</label><input type="date" id="edit-dateout"></div>
-      <div class="form-group"><label>Due back</label><input type="date" id="edit-dueback"></div>
+      <div class="form-group"><label>Status</label><select id="edit-status"><option>Available</option><option>Partially out</option><option>All checked out</option><option>Faulty</option><option>Under repair</option></select></div>
       <div class="form-group form-full"><label>Notes</label><input type="text" id="edit-notes"></div>
     </div>
     <div class="modal-footer">
@@ -234,12 +245,17 @@ tr:hover td{background:var(--bg2)}
 
 <!-- Checkout Modal -->
 <div class="modal-backdrop" id="checkout-modal">
-  <div class="modal">
-    <h3>Check out item</h3>
+  <div class="modal" style="max-width:480px">
+    <h3>Check out items</h3>
     <p id="checkout-item-name" style="font-size:13px;color:var(--text2);margin-bottom:1rem"></p>
-    <div class="form-group" style="margin-bottom:10px"><label>Checked out to *</label><input type="text" id="checkout-name" placeholder="Full name"></div>
-    <div class="form-group" style="margin-bottom:10px"><label>Expected return date</label><input type="date" id="checkout-date"></div>
-    <div class="form-group" style="margin-bottom:10px"><label>Notes</label><input type="text" id="checkout-notes" placeholder="Optional"></div>
+    <div class="form-grid">
+      <div class="form-group"><label>Qty to check out *</label><input type="number" id="checkout-qty" value="1" min="1"></div>
+      <div class="form-group"><label>Checked out to *</label><input type="text" id="checkout-name" placeholder="Full name"></div>
+      <div class="form-group"><label>Date out</label><input type="date" id="checkout-date"></div>
+      <div class="form-group"><label>Due back</label><input type="date" id="checkout-dueback"></div>
+      <div class="form-group form-full"><label>Notes</label><input type="text" id="checkout-notes" placeholder="Optional"></div>
+    </div>
+    <div id="active-checkouts" class="checkout-list"></div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal('checkout-modal')">Cancel</button>
       <button class="btn btn-primary" onclick="confirmCheckout()">Confirm checkout</button>
@@ -251,7 +267,7 @@ tr:hover td{background:var(--bg2)}
 <div class="modal-backdrop" id="api-modal">
   <div class="modal">
     <h3>Anthropic API key</h3>
-    <div class="form-group" style="margin-bottom:12px"><label>API key (for AI import)</label><input type="password" id="api-key-update" placeholder="sk-ant-api03-…"></div>
+    <div class="form-group" style="margin-bottom:12px"><label>API key</label><input type="password" id="api-key-update" placeholder="sk-ant-api03-…"></div>
     <p style="font-size:12px;color:var(--text3);margin-bottom:1rem">Get a free key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue-text)">console.anthropic.com</a></p>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal('api-modal')">Cancel</button>
@@ -261,397 +277,433 @@ tr:hover td{background:var(--bg2)}
 </div>
 
 <script>
-// ─── Supabase config ────────────────────────────────────────────────────────
-const SB_URL = 'https://hidqhxzszpmyktkkbbzn.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpZHFoeHpzenBteWt0a2tiYnpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NjUzOTQsImV4cCI6MjA5MjQ0MTM5NH0.Z3I65gpAlSPWmO8O5ltol-5W86fWBi4L1BRbEY_fdAY';
+const SB_URL='https://hidqhxzszpmyktkkbbzn.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpZHFoeHpzenBteWt0a2tiYnpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4NjUzOTQsImV4cCI6MjA5MjQ0MTM5NH0.Z3I65gpAlSPWmO8O5ltol-5W86fWBi4L1BRbEY_fdAY';
+const SB_H={'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=representation'};
 
-const SB_HEADERS = {
-  'Content-Type': 'application/json',
-  'apikey': SB_KEY,
-  'Authorization': 'Bearer ' + SB_KEY,
-  'Prefer': 'return=representation'
-};
-
-async function sbQuery(path, options = {}) {
-  const resp = await fetch(SB_URL + '/rest/v1/' + path, {
-    headers: SB_HEADERS,
-    ...options
-  });
-  if (!resp.ok) {
-    const err = await resp.json().catch(() => ({}));
-    throw new Error(err.message || err.details || `DB error ${resp.status}`);
-  }
-  return resp.status === 204 ? null : resp.json();
+async function sb(path,opts={}){
+  const r=await fetch(SB_URL+'/rest/v1/'+path,{headers:SB_H,...opts});
+  if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.message||e.details||'DB error '+r.status);}
+  return r.status===204?null:r.json();
 }
 
-// ─── State ───────────────────────────────────────────────────────────────────
-let inventory = [];
-let activityLog = JSON.parse(localStorage.getItem('inv_log') || '[]');
-let aiKey = localStorage.getItem('inv_ai_key') || '';
-let checkoutTargetId = null;
-let sortField = 'id', sortDir = 'asc';
+let inventory=[], activityLog=JSON.parse(localStorage.getItem('inv_log')||'[]');
+let aiKey=localStorage.getItem('inv_ai_key')||'', checkoutTargetId=null;
+let sortField='name', sortDir='asc';
 
-const TECH_TYPES = ['Laptop','Screen','Mouse','Keyboard','Headset','Phone','Tablet','Dock / Hub','Cable / Adapter','Other Tech'];
-const MKT_TYPES = ['Banner / Stand','Brochure / Print','Branded Merch','Event Kit','Camera / AV','Other Marketing'];
+const TECH_TYPES=['Laptop','Screen','Mouse','Keyboard','Headset','Phone','Tablet','Dock / Hub','Cable / Adapter','Other Tech'];
+const MKT_TYPES=['Banner / Stand','Brochure / Print','Branded Merch','Event Kit','Camera / AV','Other Marketing'];
 
-function updateTypeOptions() {
-  const cat = document.getElementById('s-cat').value;
-  document.getElementById('s-type').innerHTML = (cat === 'Tech' ? TECH_TYPES : MKT_TYPES).map(t => `<option>${t}</option>`).join('');
+function updateTypeOptions(){
+  const cat=document.getElementById('s-cat').value;
+  document.getElementById('s-type').innerHTML=(cat==='Tech'?TECH_TYPES:MKT_TYPES).map(t=>`<option>${t}</option>`).join('');
 }
 
-// ─── Setup ───────────────────────────────────────────────────────────────────
-function launchApp() {
-  const k = document.getElementById('ai-key-input').value.trim();
-  if (k) { aiKey = k; localStorage.setItem('inv_ai_key', k); }
-  document.getElementById('setup-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  updateTypeOptions();
-  loadInventory();
+function launchApp(){
+  const k=document.getElementById('ai-key-input').value.trim();
+  if(k){aiKey=k;localStorage.setItem('inv_ai_key',k);}
+  document.getElementById('setup-screen').style.display='none';
+  document.getElementById('app').style.display='flex';
+  updateTypeOptions();loadInventory();
 }
 
-// ─── Load from Supabase ───────────────────────────────────────────────────────
-async function loadInventory() {
-  document.getElementById('table-loading').style.display = 'block';
-  document.getElementById('table-empty').style.display = 'none';
-  try {
-    inventory = await sbQuery('inventory?select=*&order=created_at.asc');
-    setDbStatus(true);
-  } catch(e) {
-    setDbStatus(false);
-    showToast('Could not load inventory: ' + e.message, 'err');
-  }
-  document.getElementById('table-loading').style.display = 'none';
+async function loadInventory(){
+  document.getElementById('table-loading').style.display='block';
+  document.getElementById('table-empty').style.display='none';
+  try{inventory=await sb('inventory?select=*&order=name.asc');setDbStatus(true);}
+  catch(e){setDbStatus(false);toast('Could not load: '+e.message,'err');}
+  document.getElementById('table-loading').style.display='none';
   renderTable();
 }
 
-function setDbStatus(ok) {
-  const el = document.getElementById('db-status');
-  el.innerHTML = `<span class="db-dot${ok?'':' red'}"></span>${ok ? 'Connected' : 'Offline'}`;
+function setDbStatus(ok){document.getElementById('db-status').innerHTML=`<span class="db-dot${ok?'':' red'}"></span>${ok?'Connected':'Offline'}`;}
+
+function computeStatus(item){
+  if(item.status==='Faulty'||item.status==='Under repair')return item.status;
+  const avail=item.qty_available??item.quantity??1, total=item.quantity||1;
+  if(avail<=0)return 'All checked out';
+  if(avail<total)return 'Partially out';
+  return 'Available';
 }
 
-// ─── CRUD ─────────────────────────────────────────────────────────────────────
-async function dbInsert(item) {
-  const row = {
-    id: item.id, name: item.name, type: item.type, cat: item.cat,
-    office: item.office, status: item.status, held_by: item.heldBy || null,
-    date_out: item.dateOut || null, due_back: item.dueBack || null, notes: item.notes || null
-  };
-  const result = await sbQuery('inventory', { method: 'POST', body: JSON.stringify(row) });
-  return result[0];
+function statusBadge(item){
+  const s=computeStatus(item);
+  const cls={'Available':'b-available','Partially out':'b-partial','All checked out':'b-out','Faulty':'b-faulty','Under repair':'b-faulty'}[s]||'';
+  return `<span class="badge ${cls}">${s}</span>`;
+}
+function catBadge(c){return `<span class="badge ${c==='Tech'?'cat-tech':'cat-mkt'}">${c}</span>`;}
+function officeBadge(o){return `<span class="badge ${o==='UK'?'office-uk':'office-ie'}">${o}</span>`;}
+function typeBadge(t){return `<span class="badge type-badge">${t||'—'}</span>`;}
+
+function renderStats(){
+  const total=inventory.reduce((s,i)=>s+(i.quantity||1),0);
+  const avail=inventory.reduce((s,i)=>s+(i.qty_available??i.quantity??1),0);
+  const out=total-avail, faulty=inventory.filter(i=>i.status==='Faulty'||i.status==='Under repair').reduce((s,i)=>s+(i.quantity||1),0);
+  const uk=inventory.filter(i=>i.office==='UK').reduce((s,i)=>s+(i.quantity||1),0);
+  const ie=inventory.filter(i=>i.office==='Ireland').reduce((s,i)=>s+(i.quantity||1),0);
+  document.getElementById('stats-row').innerHTML=`
+    <div class="stat"><div class="stat-label">Total items</div><div class="stat-val">${total}</div></div>
+    <div class="stat"><div class="stat-label">Available</div><div class="stat-val green">${avail}</div></div>
+    <div class="stat"><div class="stat-label">Checked out</div><div class="stat-val blue">${out}</div></div>
+    <div class="stat"><div class="stat-label">Faulty/repair</div><div class="stat-val red">${faulty}</div></div>
+    <div class="stat"><div class="stat-label">UK</div><div class="stat-val">${uk}</div></div>
+    <div class="stat"><div class="stat-label">Ireland</div><div class="stat-val amber">${ie}</div></div>`;
 }
 
-async function dbUpdate(id, item) {
-  const row = {
-    id: item.id, name: item.name, type: item.type, cat: item.cat,
-    office: item.office, status: item.status, held_by: item.heldBy || null,
-    date_out: item.dateOut || null, due_back: item.dueBack || null, notes: item.notes || null
-  };
-  await sbQuery(`inventory?id=eq.${encodeURIComponent(id)}`, { method: 'PATCH', body: JSON.stringify(row) });
-}
-
-async function dbDelete(id) {
-  await sbQuery(`inventory?id=eq.${encodeURIComponent(id)}`, { method: 'DELETE' });
-}
-
-// ─── Activity log (localStorage) ─────────────────────────────────────────────
-function logAction(msg) {
-  const now = new Date();
-  const ts = now.toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'}) + ' ' + now.toLocaleTimeString('en-GB', {hour:'2-digit',minute:'2-digit'});
-  activityLog.unshift({ts, msg});
-  if (activityLog.length > 200) activityLog = activityLog.slice(0, 200);
-  localStorage.setItem('inv_log', JSON.stringify(activityLog));
-}
-
-// ─── UI helpers ───────────────────────────────────────────────────────────────
-function showTab(name) {
-  ['dashboard','add','log'].forEach(t => { document.getElementById('tab-'+t).style.display = t === name ? 'block' : 'none'; });
-  document.querySelectorAll('.nav-tab').forEach((el,i) => { el.classList.toggle('active', ['dashboard','add','log'][i] === name); });
-  if (name === 'log') renderLog();
-}
-
-function sortBy(field) {
-  if (sortField === field) { sortDir = sortDir === 'asc' ? 'desc' : 'asc'; }
-  else { sortField = field; sortDir = 'asc'; }
-  document.querySelectorAll('th.sortable').forEach(th => {
-    th.classList.remove('sort-asc','sort-desc');
-    if (th.getAttribute('onclick') === `sortBy('${field}')`) th.classList.add(sortDir === 'asc' ? 'sort-asc' : 'sort-desc');
-  });
-  renderTable();
-}
-
-function statusBadge(s) { const cls = {'Available':'b-available','Checked out':'b-checkout','Faulty':'b-faulty','Under repair':'b-repair','Returned':'b-returned'}[s]||''; return `<span class="badge ${cls}">${s}</span>`; }
-function catBadge(c) { return `<span class="badge ${c==='Tech'?'cat-tech':'cat-mkt'}">${c}</span>`; }
-function officeBadge(o) { return `<span class="badge ${o==='UK'?'office-uk':'office-ie'}">${o}</span>`; }
-function typeBadge(t) { return `<span class="badge type-badge">${t||'—'}</span>`; }
-
-// Map DB row to app object
-function rowToItem(r) {
-  return { id: r.id, name: r.name, type: r.type||'', cat: r.cat||'Tech', office: r.office||'UK', status: r.status||'Available', heldBy: r.held_by||'', dateOut: r.date_out||'', dueBack: r.due_back||'', notes: r.notes||'' };
-}
-
-function renderStats() {
-  const total=inventory.length, avail=inventory.filter(i=>i.status==='Available').length, out=inventory.filter(i=>i.status==='Checked out').length, faulty=inventory.filter(i=>i.status==='Faulty'||i.status==='Under repair').length, uk=inventory.filter(i=>i.office==='UK').length, ie=inventory.filter(i=>i.office==='Ireland').length;
-  document.getElementById('stats-row').innerHTML=`<div class="stat"><div class="stat-label">Total</div><div class="stat-val">${total}</div></div><div class="stat"><div class="stat-label">Available</div><div class="stat-val green">${avail}</div></div><div class="stat"><div class="stat-label">Checked out</div><div class="stat-val blue">${out}</div></div><div class="stat"><div class="stat-label">Faulty/repair</div><div class="stat-val red">${faulty}</div></div><div class="stat"><div class="stat-label">UK</div><div class="stat-val">${uk}</div></div><div class="stat"><div class="stat-label">Ireland</div><div class="stat-val amber">${ie}</div></div>`;
-}
-
-function renderTable() {
-  const fo=document.getElementById('f-office').value, fc=document.getElementById('f-cat').value, ft=document.getElementById('f-type').value, fs=document.getElementById('f-status').value, fq=document.getElementById('f-search').value.toLowerCase();
-  const items = inventory.map(rowToItem);
-  const rows = items.filter(i => {
-    if (fo && i.office !== fo) return false;
-    if (fc && i.cat !== fc) return false;
-    if (ft && i.type !== ft) return false;
-    if (fs && i.status !== fs) return false;
-    if (fq && !i.name.toLowerCase().includes(fq) && !i.id.toLowerCase().includes(fq) && !i.heldBy.toLowerCase().includes(fq) && !i.type.toLowerCase().includes(fq)) return false;
+function renderTable(){
+  const fo=document.getElementById('f-office').value,fc=document.getElementById('f-cat').value;
+  const ft=document.getElementById('f-type').value,fs=document.getElementById('f-status').value;
+  const fq=document.getElementById('f-search').value.toLowerCase();
+  const rows=inventory.filter(i=>{
+    if(fo&&i.office!==fo)return false;
+    if(fc&&i.cat!==fc)return false;
+    if(ft&&i.type!==ft)return false;
+    if(fs&&computeStatus(i)!==fs)return false;
+    if(fq&&!i.name.toLowerCase().includes(fq)&&!i.id.toLowerCase().includes(fq)&&!(i.notes||'').toLowerCase().includes(fq))return false;
     return true;
-  }).sort((a,b) => {
-    const av=(a[sortField]||'').toLowerCase(), bv=(b[sortField]||'').toLowerCase();
-    if(av<bv) return sortDir==='asc'?-1:1; if(av>bv) return sortDir==='asc'?1:-1; return 0;
+  }).sort((a,b)=>{
+    const av=(a[sortField]??'').toString().toLowerCase(),bv=(b[sortField]??'').toString().toLowerCase();
+    if(av<bv)return sortDir==='asc'?-1:1;if(av>bv)return sortDir==='asc'?1:-1;return 0;
   });
-  const tbody=document.getElementById('inv-body'), empty=document.getElementById('table-empty');
-  if (!rows.length) { tbody.innerHTML=''; empty.style.display='block'; renderStats(); return; }
+  const tbody=document.getElementById('inv-body'),empty=document.getElementById('table-empty');
+  if(!rows.length){tbody.innerHTML='';empty.style.display='block';renderStats();return;}
   empty.style.display='none';
-  tbody.innerHTML = rows.map(i => `<tr>
-    <td class="col-id" style="font-family:monospace;font-size:11px;font-weight:500;color:var(--text2)" title="${i.id}">${i.id}</td>
-    <td class="col-name" title="${i.name}">${i.name}</td>
-    <td class="col-type">${typeBadge(i.type)}</td>
-    <td class="col-cat">${catBadge(i.cat)}</td>
-    <td class="col-office">${officeBadge(i.office)}</td>
-    <td class="col-status"><select class="inline-status" onchange="changeStatus('${i.id}',this.value)">${['Available','Checked out','Returned','Faulty','Under repair'].map(s=>`<option${i.status===s?' selected':''}>${s}</option>`).join('')}</select></td>
-    <td class="col-held" style="color:var(--text2)" title="${i.heldBy}">${i.heldBy||'—'}</td>
-    <td class="col-date" style="color:var(--text3)">${i.dateOut||'—'}</td>
-    <td class="col-actions"><div style="display:flex;gap:4px">
-      <button class="btn btn-sm" onclick="openEdit('${i.id}')">Edit</button>
-      <button class="btn btn-sm" onclick="openCheckout('${i.id}')">Out</button>
-      <button class="btn btn-sm btn-danger" onclick="deleteItem('${i.id}')">Del</button>
-    </div></td>
-  </tr>`).join('');
+  tbody.innerHTML=rows.map(i=>{
+    const qty=i.quantity||1,avail=i.qty_available??qty;
+    const ac=avail===0?'var(--red-text)':avail<qty?'var(--amber-text)':'var(--green-text)';
+    return `<tr>
+      <td class="col-id" style="font-family:monospace;font-size:11px;font-weight:500;color:var(--text2)" title="${i.id}">${i.id}</td>
+      <td class="col-name" title="${i.name}">${i.name}</td>
+      <td class="col-type">${typeBadge(i.type)}</td>
+      <td class="col-cat">${catBadge(i.cat)}</td>
+      <td class="col-office">${officeBadge(i.office)}</td>
+      <td class="col-qty" style="text-align:center;font-weight:500">${qty}</td>
+      <td class="col-avail" style="text-align:center;font-weight:500;color:${ac}">${avail}</td>
+      <td class="col-status">${statusBadge(i)}</td>
+      <td class="col-actions"><div style="display:flex;gap:4px">
+        <button class="btn btn-sm" onclick="openEdit('${i.id}')">Edit</button>
+        <button class="btn btn-sm" onclick="openCheckout('${i.id}')">Out</button>
+        <button class="btn btn-sm btn-danger" onclick="deleteItem('${i.id}')">Del</button>
+      </div></td>
+    </tr>`;
+  }).join('');
   renderStats();
 }
 
-// ─── Status change ────────────────────────────────────────────────────────────
-async function changeStatus(id, val) {
-  const item = inventory.find(i => i.id === id);
-  if (!item) return;
-  const old = item.status;
-  item.status = val;
-  if (val==='Available'||val==='Returned') { item.held_by=null; item.date_out=null; item.due_back=null; }
-  try {
-    await dbUpdate(id, rowToItem(item));
-    logAction(`${id} (${item.name}): status "${old}" → "${val}"`);
-    renderTable();
-  } catch(e) {
-    item.status = old;
-    showToast('Failed to update status: ' + e.message, 'err');
-    renderTable();
+function sortBy(field){
+  if(sortField===field){sortDir=sortDir==='asc'?'desc':'asc';}else{sortField=field;sortDir='asc';}
+  document.querySelectorAll('th.sortable').forEach(th=>{th.classList.remove('sort-asc','sort-desc');if(th.getAttribute('onclick')===`sortBy('${field}')`){th.classList.add(sortDir==='asc'?'sort-asc':'sort-desc');}});
+  renderTable();
+}
+
+function showTab(name){
+  ['dashboard','add','log'].forEach(t=>{document.getElementById('tab-'+t).style.display=t===name?'block':'none';});
+  document.querySelectorAll('.nav-tab').forEach((el,i)=>{el.classList.toggle('active',['dashboard','add','log'][i]===name);});
+  if(name==='log')renderLog();
+}
+
+// ─── AI COMMAND BAR ──────────────────────────────────────────────────────────
+async function runAICommand(){
+  const cmd=document.getElementById('ai-cmd-input').value.trim();
+  if(!cmd)return;
+  if(!aiKey){toast('Add your AI key first — click "AI key" in the top right','err');return;}
+
+  const btn=document.getElementById('ai-cmd-btn'),statusEl=document.getElementById('ai-cmd-status'),previewEl=document.getElementById('ai-cmd-preview');
+  btn.disabled=true;
+  statusEl.innerHTML='<span class="loading"></span>Thinking…';
+  previewEl.innerHTML='';
+
+  // Build a compact snapshot of current inventory for context
+  const snapshot=inventory.map(i=>`id:${i.id}|name:${i.name}|type:${i.type||''}|cat:${i.cat}|office:${i.office}|qty:${i.quantity||1}|avail:${i.qty_available??i.quantity??1}|status:${computeStatus(i)}`).join('\n');
+
+  const systemPrompt=`You are an inventory management AI. You receive plain English commands and must return a JSON array of operations to perform on the inventory database.
+
+Current inventory:
+${snapshot||'(empty)'}
+
+Valid item types — Tech: Laptop, Screen, Mouse, Keyboard, Headset, Phone, Tablet, Dock / Hub, Cable / Adapter, Other Tech
+Valid item types — Marketing: Banner / Stand, Brochure / Print, Branded Merch, Event Kit, Camera / AV, Other Marketing
+
+Return ONLY a JSON array of operations. Each operation has:
+- "op": "add" | "edit" | "delete"
+- For "add": name, type, cat ("Tech"/"Marketing"), office ("UK"/"Ireland"), quantity (int), notes (optional)
+- For "edit": id (must match existing), and any fields to change: name, type, cat, office, quantity, qty_available, status, notes
+- For "delete": id (must match existing item id exactly)
+
+Rules:
+- To delete/edit multiple matching items, return one operation per item
+- For edits, only include fields that should change
+- If the command is ambiguous, make the most reasonable interpretation
+- If no matching items exist for an edit/delete, return an empty array []
+- Auto-generate IDs for new items using format: OFFICE-CAT-TIMESTAMP (e.g. UK-TECH-ABC123)
+- Return ONLY the JSON array, no markdown, no explanation`;
+
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':aiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:2000,system:systemPrompt,messages:[{role:'user',content:cmd}]})
+    });
+    if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error(e.error?.message||'API error '+resp.status);}
+    const data=await resp.json();
+    const raw=data.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const ops=JSON.parse(raw);
+
+    btn.disabled=false;
+    statusEl.textContent='';
+
+    if(!ops.length){
+      previewEl.innerHTML='<p style="font-size:13px;color:var(--text3);margin-top:6px">No matching items found for that command.</p>';
+      return;
+    }
+
+    // Build preview
+    const adds=ops.filter(o=>o.op==='add');
+    const edits=ops.filter(o=>o.op==='edit');
+    const dels=ops.filter(o=>o.op==='delete');
+
+    let html=`<div style="margin-top:10px">`;
+    html+=`<p style="font-size:13px;margin-bottom:8px">`;
+    if(adds.length)html+=`<span class="op-add">+${adds.length} add</span> `;
+    if(edits.length)html+=`<span class="op-edit">✎${edits.length} edit</span> `;
+    if(dels.length)html+=`<span class="op-del">✕${dels.length} delete</span>`;
+    html+=` — review and confirm:</p>`;
+
+    html+=`<table class="preview-table"><thead><tr><th>Action</th><th>Item</th><th>Details</th></tr></thead><tbody>`;
+
+    dels.forEach(o=>{
+      const item=inventory.find(i=>i.id===o.id);
+      html+=`<tr class="del-row"><td>Delete</td><td>${item?item.name:o.id}</td><td>${item?`${item.type||''} · ${item.office} · qty ${item.quantity||1}`:''}</td></tr>`;
+    });
+    edits.forEach(o=>{
+      const item=inventory.find(i=>i.id===o.id);
+      const changes=Object.entries(o).filter(([k])=>k!=='op'&&k!=='id').map(([k,v])=>`${k}: ${v}`).join(', ');
+      html+=`<tr class="edit-row"><td>Edit</td><td>${item?item.name:o.id}</td><td>${changes}</td></tr>`;
+    });
+    adds.forEach(o=>{
+      html+=`<tr class="add-row"><td>Add</td><td>${o.name}</td><td>${o.type||''} · ${o.cat} · ${o.office} · qty ${o.quantity||1}</td></tr>`;
+    });
+
+    html+=`</tbody></table>`;
+    html+=`<div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn btn-primary" onclick="executeAIOps(${JSON.stringify(ops).replace(/'/g,'&#39;')})">Apply changes</button>
+      <button class="btn" onclick="document.getElementById('ai-cmd-preview').innerHTML='';document.getElementById('ai-cmd-input').value=''">Cancel</button>
+    </div></div>`;
+
+    previewEl.innerHTML=html;
+  }catch(e){
+    btn.disabled=false;
+    statusEl.textContent='';
+    previewEl.innerHTML=`<p style="font-size:13px;color:var(--red-text);margin-top:6px">Error: ${e.message}</p>`;
   }
 }
 
-// ─── Edit ─────────────────────────────────────────────────────────────────────
-function openEdit(id) {
-  const item = rowToItem(inventory.find(i => i.id === id));
-  if (!item) return;
-  document.getElementById('edit-orig-id').value = item.id;
-  document.getElementById('edit-id').value = item.id;
-  document.getElementById('edit-name').value = item.name;
-  document.getElementById('edit-type').value = item.type || 'Other Tech';
-  document.getElementById('edit-cat').value = item.cat;
-  document.getElementById('edit-office').value = item.office;
-  document.getElementById('edit-status').value = item.status;
-  document.getElementById('edit-heldby').value = item.heldBy;
-  document.getElementById('edit-dateout').value = item.dateOut;
-  document.getElementById('edit-dueback').value = item.dueBack;
-  document.getElementById('edit-notes').value = item.notes;
-  openModal('edit-modal');
-}
+async function executeAIOps(ops){
+  const previewEl=document.getElementById('ai-cmd-preview');
+  previewEl.innerHTML='<p style="font-size:13px;margin-top:6px"><span class="loading"></span>Applying changes…</p>';
+  let done=0,errors=0;
 
-async function saveEdit() {
-  const origId = document.getElementById('edit-orig-id').value;
-  const newId = document.getElementById('edit-id').value.trim();
-  if (!newId) { alert('Serial / ID cannot be empty.'); return; }
-  if (newId !== origId && inventory.find(i => i.id === newId)) { alert(`Serial "${newId}" is already used by another item.`); return; }
-  const updated = {
-    id: newId, name: document.getElementById('edit-name').value.trim(),
-    type: document.getElementById('edit-type').value, cat: document.getElementById('edit-cat').value,
-    office: document.getElementById('edit-office').value, status: document.getElementById('edit-status').value,
-    heldBy: document.getElementById('edit-heldby').value.trim(), dateOut: document.getElementById('edit-dateout').value,
-    dueBack: document.getElementById('edit-dueback').value, notes: document.getElementById('edit-notes').value.trim()
-  };
-  try {
-    await dbUpdate(origId, updated);
-    const idx = inventory.findIndex(i => i.id === origId);
-    if (idx >= 0) inventory[idx] = { ...inventory[idx], ...updated, held_by: updated.heldBy, date_out: updated.dateOut, due_back: updated.dueBack };
-    logAction(`Edited: ${newId} (${updated.name})`);
-    renderTable();
-    closeModal('edit-modal');
-    showToast('Item updated', 'ok');
-  } catch(e) { showToast('Failed to save: ' + e.message, 'err'); }
-}
+  for(const op of ops){
+    try{
+      if(op.op==='delete'){
+        await sb(`inventory?id=eq.${encodeURIComponent(op.id)}`,{method:'DELETE'});
+        const item=inventory.find(i=>i.id===op.id);
+        logAction(`AI deleted: ${op.id}${item?' ('+item.name+')':''}`);
+        inventory=inventory.filter(i=>i.id!==op.id);
+        done++;
+      } else if(op.op==='edit'){
+        const {op:_,id,...fields}=op;
+        // Map friendly field names to DB column names
+        const dbFields={};
+        if(fields.name!==undefined)dbFields.name=fields.name;
+        if(fields.type!==undefined)dbFields.type=fields.type;
+        if(fields.cat!==undefined)dbFields.cat=fields.cat;
+        if(fields.office!==undefined)dbFields.office=fields.office;
+        if(fields.quantity!==undefined)dbFields.quantity=fields.quantity;
+        if(fields.qty_available!==undefined)dbFields.qty_available=fields.qty_available;
+        if(fields.status!==undefined)dbFields.status=fields.status;
+        if(fields.notes!==undefined)dbFields.notes=fields.notes;
+        await sb(`inventory?id=eq.${encodeURIComponent(id)}`,{method:'PATCH',body:JSON.stringify(dbFields)});
+        const idx=inventory.findIndex(i=>i.id===id);
+        if(idx>=0)Object.assign(inventory[idx],dbFields);
+        const item=inventory.find(i=>i.id===id);
+        logAction(`AI edited: ${id}${item?' ('+item.name+')':''} — ${Object.keys(dbFields).join(', ')}`);
+        done++;
+      } else if(op.op==='add'){
+        const id=op.id||(op.office==='UK'?'UK':'IE')+'-'+(op.cat==='Tech'?'TECH':'MKT')+'-'+Date.now().toString(36).toUpperCase();
+        const qty=op.quantity||1;
+        const item={id,name:op.name,type:op.type||'Other Tech',cat:op.cat,office:op.office,status:'Available',quantity:qty,qty_available:qty,notes:op.notes||''};
+        const row=await sb('inventory',{method:'POST',body:JSON.stringify(item)});
+        inventory.push(row[0]||item);
+        logAction(`AI added: ${op.name} × ${qty}`);
+        done++;
+      }
+      await new Promise(r=>setTimeout(r,40));
+    }catch(e){errors++;console.error('Op failed:',op,e);}
+  }
 
-// ─── Checkout ─────────────────────────────────────────────────────────────────
-function openCheckout(id) {
-  const item = rowToItem(inventory.find(i => i.id === id));
-  if (!item) return;
-  checkoutTargetId = id;
-  document.getElementById('checkout-item-name').textContent = `${item.id} — ${item.name}`;
-  document.getElementById('checkout-name').value = item.heldBy;
-  document.getElementById('checkout-date').value = '';
-  document.getElementById('checkout-notes').value = item.notes;
-  openModal('checkout-modal');
-}
-
-async function confirmCheckout() {
-  const name = document.getElementById('checkout-name').value.trim();
-  if (!name) { alert('Please enter who is taking the item.'); return; }
-  const item = rowToItem(inventory.find(i => i.id === checkoutTargetId));
-  if (!item) return;
-  item.status = 'Checked out'; item.heldBy = name;
-  item.dateOut = new Date().toISOString().slice(0,10);
-  item.dueBack = document.getElementById('checkout-date').value;
-  const notes = document.getElementById('checkout-notes').value.trim();
-  if (notes) item.notes = notes;
-  try {
-    await dbUpdate(checkoutTargetId, item);
-    const idx = inventory.findIndex(i => i.id === checkoutTargetId);
-    if (idx >= 0) { inventory[idx].status='Checked out'; inventory[idx].held_by=name; inventory[idx].date_out=item.dateOut; inventory[idx].due_back=item.dueBack; }
-    logAction(`${item.id} (${item.name}) checked out to ${name}${item.dueBack?', due back '+item.dueBack:''}`);
-    renderTable(); closeModal('checkout-modal');
-    showToast('Item checked out', 'ok');
-  } catch(e) { showToast('Failed: ' + e.message, 'err'); }
-}
-
-// ─── Delete ───────────────────────────────────────────────────────────────────
-async function deleteItem(id) {
-  const item = rowToItem(inventory.find(i => i.id === id));
-  if (!item) return;
-  if (!confirm(`Delete "${item.name}" (${item.id})?\n\nThis removes it from the database permanently.`)) return;
-  try {
-    await dbDelete(id);
-    inventory = inventory.filter(i => i.id !== id);
-    logAction(`${id} (${item.name}) deleted`);
-    renderTable();
-    showToast('Item deleted', 'ok');
-  } catch(e) { showToast('Failed to delete: ' + e.message, 'err'); }
+  renderTable();
+  document.getElementById('ai-cmd-input').value='';
+  previewEl.innerHTML=`<p style="font-size:13px;color:var(--green-text);margin-top:6px">Done — ${done} change${done!==1?'s':''} applied${errors?`, ${errors} failed`:''}.</p>`;
+  setTimeout(()=>{previewEl.innerHTML='';},4000);
+  toast(`${done} change${done!==1?'s':''} applied`,'ok');
 }
 
 // ─── Add single ───────────────────────────────────────────────────────────────
-async function addSingle() {
-  const name = document.getElementById('s-name').value.trim();
-  if (!name) { showStatus('s-status','Item name is required','err'); return; }
-  const serial = document.getElementById('s-serial').value.trim();
-  if (!serial) { showStatus('s-status','Serial number is required','err'); return; }
-  if (inventory.find(i => i.id === serial)) { showStatus('s-status',`Serial "${serial}" already exists — must be unique`,'err'); return; }
-  const item = { id: serial, name, type: document.getElementById('s-type').value, cat: document.getElementById('s-cat').value, office: document.getElementById('s-office').value, status: 'Available', heldBy: '', dateOut: '', dueBack: '', notes: document.getElementById('s-notes').value.trim() };
-  try {
-    const row = await dbInsert(item);
-    inventory.push(row);
-    logAction(`Added "${name}" — serial: ${serial}`);
+async function addSingle(){
+  const name=document.getElementById('s-name').value.trim();
+  if(!name){showStatus('s-status','Item name is required','err');return;}
+  const qty=Math.max(1,parseInt(document.getElementById('s-qty').value)||1);
+  let serial=document.getElementById('s-serial').value.trim();
+  if(!serial)serial=(document.getElementById('s-office').value==='UK'?'UK':'IE')+'-'+(document.getElementById('s-cat').value==='Tech'?'TECH':'MKT')+'-'+Date.now().toString(36).toUpperCase();
+  if(inventory.find(i=>i.id===serial)){showStatus('s-status',`Serial "${serial}" already exists`,'err');return;}
+  const item={id:serial,name,type:document.getElementById('s-type').value,cat:document.getElementById('s-cat').value,office:document.getElementById('s-office').value,status:'Available',quantity:qty,qty_available:qty,notes:document.getElementById('s-notes').value.trim()};
+  try{
+    const row=await sb('inventory',{method:'POST',body:JSON.stringify(item)});
+    inventory.push(row[0]||item);
+    logAction(`Added "${name}" × ${qty} (${serial})`);
     renderTable();
-    document.getElementById('s-name').value=''; document.getElementById('s-serial').value=''; document.getElementById('s-notes').value='';
-    showStatus('s-status','Item added to database','ok');
-  } catch(e) { showStatus('s-status','Failed: '+e.message,'err'); }
+    document.getElementById('s-name').value='';document.getElementById('s-serial').value='';document.getElementById('s-notes').value='';document.getElementById('s-qty').value='1';
+    showStatus('s-status',`${qty}× "${name}" added`,'ok');
+  }catch(e){showStatus('s-status','Failed: '+e.message,'err');}
 }
 
-// ─── AI Import ────────────────────────────────────────────────────────────────
-async function runAIImport() {
-  const text = document.getElementById('ai-input').value.trim();
-  if (!text) { alert('Please describe your stock first.'); return; }
-  if (!aiKey) { showApiModal(); return; }
-  const btn=document.getElementById('ai-btn'), statusEl=document.getElementById('ai-status'), previewEl=document.getElementById('ai-preview');
-  btn.disabled=true; statusEl.innerHTML='<span class="loading"></span>Parsing with AI…'; previewEl.innerHTML='';
-  const prompt=`You are a stock inventory parser. Parse the description into items. Return ONLY a JSON array, no markdown.
-Each object: name (string), type (string), cat ("Tech" or "Marketing"), office ("UK" or "Ireland"), qty (integer >= 1).
-Tech types: Laptop, Screen, Mouse, Keyboard, Headset, Phone, Tablet, Dock / Hub, Cable / Adapter, Other Tech
-Marketing types: Banner / Stand, Brochure / Print, Branded Merch, Event Kit, Camera / AV, Other Marketing
-Infer office from context (UK team=UK, Dublin=Ireland, default UK). Infer type from name. qty defaults to 1.
-Description: "${text}"`;
-  try {
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':aiKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
-    if(!resp.ok){const err=await resp.json().catch(()=>({}));throw new Error(err.error?.message||`API error ${resp.status}`);}
-    const data=await resp.json();
-    const parsed=JSON.parse(data.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim());
-    statusEl.textContent=''; btn.disabled=false;
-    const total=parsed.reduce((a,i)=>a+(i.qty||1),0);
-    previewEl.innerHTML=`<p style="font-size:13px;color:var(--text2);margin-top:12px;margin-bottom:8px">Found <strong>${total} items</strong> — review and confirm:</p>
-      <div style="overflow-x:auto;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg)">
-        <table><thead><tr><th>Name</th><th>Type</th><th>Category</th><th>Office</th><th style="width:50px">Qty</th></tr></thead>
-        <tbody>${parsed.map(i=>`<tr><td>${i.name}</td><td>${typeBadge(i.type)}</td><td>${catBadge(i.cat)}</td><td>${officeBadge(i.office)}</td><td>${i.qty||1}</td></tr>`).join('')}</tbody></table>
-      </div>
-      <p style="font-size:12px;color:var(--amber-text);margin-top:8px">⚠ Serial numbers will be auto-generated — update them via Edit after labelling.</p>
-      <div style="display:flex;gap:8px;margin-top:10px">
-        <button class="btn btn-primary" onclick='confirmAIImport(${JSON.stringify(parsed)})'>Save ${total} items to database</button>
-        <button class="btn" onclick="document.getElementById('ai-preview').innerHTML=''">Cancel</button>
-      </div>`;
-  } catch(e) { statusEl.textContent=''; btn.disabled=false; previewEl.innerHTML=`<p style="font-size:13px;color:var(--red-text);margin-top:10px">Error: ${e.message}</p>`; }
+// ─── Checkout ─────────────────────────────────────────────────────────────────
+function openCheckout(id){
+  const item=inventory.find(i=>i.id===id);if(!item)return;
+  checkoutTargetId=id;
+  const qty=item.quantity||1,avail=item.qty_available??qty;
+  document.getElementById('checkout-item-name').innerHTML=`<strong>${item.name}</strong> — ${avail} of ${qty} available`;
+  document.getElementById('checkout-qty').value=1;document.getElementById('checkout-qty').max=avail;
+  document.getElementById('checkout-name').value='';document.getElementById('checkout-date').value=new Date().toISOString().slice(0,10);
+  document.getElementById('checkout-dueback').value='';document.getElementById('checkout-notes').value='';
+  const active=activityLog.filter(l=>l.checkout&&l.inventory_id===id&&!l.returned);
+  const ac=document.getElementById('active-checkouts');
+  ac.innerHTML=active.length?'<p style="font-size:12px;color:var(--text3);margin-bottom:6px">Currently checked out:</p>'+active.map(c=>`<div class="checkout-row"><span>${c.held_by} — ${c.qty}× since ${c.date_out||'?'}</span><button class="btn btn-sm btn-success" onclick="returnItem('${c.logId}')">Return</button></div>`).join(''):'';
+  openModal('checkout-modal');
 }
 
-async function confirmAIImport(items) {
-  const previewEl = document.getElementById('ai-preview');
-  previewEl.innerHTML = '<p style="font-size:13px;color:var(--text2);margin-top:10px"><span class="loading"></span>Saving to database…</p>';
-  let count=0, errors=0;
-  for (const i of items) {
-    const qty=Math.max(1,parseInt(i.qty)||1);
-    for (let q=0;q<qty;q++) {
-      const tempId = (i.office==='UK'?'UK':'IE')+'-'+(i.cat==='Tech'?'TECH':'MKT')+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,6).toUpperCase();
-      const item = { id: tempId, name: i.name, type: i.type||'Other Tech', cat: i.cat, office: i.office, status: 'Available', heldBy: '', dateOut: '', dueBack: '', notes: 'Serial pending — update via Edit' };
-      try { const row = await dbInsert(item); inventory.push(row); count++; }
-      catch(e) { errors++; }
-    }
-  }
-  logAction(`AI import: ${count} items added to database${errors?`, ${errors} failed`:''}`);
-  renderTable();
-  previewEl.innerHTML=`<p style="font-size:13px;color:var(--green-text);margin-top:10px">${count} items saved to database. Click <strong>Edit</strong> on each row to set serial numbers.</p>`;
-  document.getElementById('ai-input').value='';
+async function confirmCheckout(){
+  const name=document.getElementById('checkout-name').value.trim();
+  if(!name){alert('Please enter who is taking the item.');return;}
+  const qty=Math.max(1,parseInt(document.getElementById('checkout-qty').value)||1);
+  const item=inventory.find(i=>i.id===checkoutTargetId);if(!item)return;
+  const avail=item.qty_available??item.quantity??1;
+  if(qty>avail){alert(`Only ${avail} available.`);return;}
+  const newAvail=avail-qty;
+  try{
+    const newStatus=newAvail===0?'All checked out':newAvail<(item.quantity||1)?'Partially out':'Available';
+    await sb(`inventory?id=eq.${encodeURIComponent(checkoutTargetId)}`,{method:'PATCH',body:JSON.stringify({qty_available:newAvail,status:newStatus})});
+    item.qty_available=newAvail;item.status=newStatus;
+    const logId=Date.now().toString(36);
+    const entry={logId,checkout:true,inventory_id:checkoutTargetId,held_by:name,qty,date_out:document.getElementById('checkout-date').value,due_back:document.getElementById('checkout-dueback').value,returned:false};
+    logAction(`${item.name} × ${qty} checked out to ${name}`);
+    activityLog[0]={...activityLog[0],...entry};
+    localStorage.setItem('inv_log',JSON.stringify(activityLog));
+    renderTable();closeModal('checkout-modal');toast(`${qty}× checked out to ${name}`,'ok');
+  }catch(e){toast('Failed: '+e.message,'err');}
+}
+
+async function returnItem(logId){
+  const entry=activityLog.find(l=>l.logId===logId);if(!entry)return;
+  const item=inventory.find(i=>i.id===entry.inventory_id);if(!item)return;
+  const newAvail=Math.min((item.qty_available??0)+entry.qty,item.quantity||1);
+  try{
+    const newStatus=newAvail>=(item.quantity||1)?'Available':'Partially out';
+    await sb(`inventory?id=eq.${encodeURIComponent(item.id)}`,{method:'PATCH',body:JSON.stringify({qty_available:newAvail,status:newStatus})});
+    item.qty_available=newAvail;item.status=newStatus;
+    entry.returned=true;localStorage.setItem('inv_log',JSON.stringify(activityLog));
+    logAction(`${item.name} × ${entry.qty} returned by ${entry.held_by}`);
+    renderTable();closeModal('checkout-modal');toast(`Returned by ${entry.held_by}`,'ok');
+  }catch(e){toast('Failed: '+e.message,'err');}
+}
+
+// ─── Edit modal ───────────────────────────────────────────────────────────────
+function openEdit(id){
+  const item=inventory.find(i=>i.id===id);if(!item)return;
+  document.getElementById('edit-orig-id').value=item.id;
+  document.getElementById('edit-id').value=item.id;
+  document.getElementById('edit-name').value=item.name;
+  document.getElementById('edit-qty').value=item.quantity||1;
+  document.getElementById('edit-avail').value=item.qty_available??item.quantity??1;
+  document.getElementById('edit-type').value=item.type||'Other Tech';
+  document.getElementById('edit-cat').value=item.cat||'Tech';
+  document.getElementById('edit-office').value=item.office||'UK';
+  document.getElementById('edit-status').value=computeStatus(item);
+  document.getElementById('edit-notes').value=item.notes||'';
+  openModal('edit-modal');
+}
+
+async function saveEdit(){
+  const origId=document.getElementById('edit-orig-id').value;
+  const newId=document.getElementById('edit-id').value.trim();
+  if(!newId){alert('ID cannot be empty.');return;}
+  if(newId!==origId&&inventory.find(i=>i.id===newId)){alert(`ID "${newId}" is already used.`);return;}
+  const qty=Math.max(1,parseInt(document.getElementById('edit-qty').value)||1);
+  const avail=Math.max(0,Math.min(qty,parseInt(document.getElementById('edit-avail').value)||0));
+  const updated={id:newId,name:document.getElementById('edit-name').value.trim(),type:document.getElementById('edit-type').value,cat:document.getElementById('edit-cat').value,office:document.getElementById('edit-office').value,status:document.getElementById('edit-status').value,quantity:qty,qty_available:avail,notes:document.getElementById('edit-notes').value.trim()};
+  try{
+    await sb(`inventory?id=eq.${encodeURIComponent(origId)}`,{method:'PATCH',body:JSON.stringify(updated)});
+    const idx=inventory.findIndex(i=>i.id===origId);
+    if(idx>=0)inventory[idx]={...inventory[idx],...updated};
+    logAction(`Edited: ${newId} (${updated.name})`);
+    renderTable();closeModal('edit-modal');toast('Item updated','ok');
+  }catch(e){toast('Failed: '+e.message,'err');}
+}
+
+// ─── Delete ───────────────────────────────────────────────────────────────────
+async function deleteItem(id){
+  const item=inventory.find(i=>i.id===id);if(!item)return;
+  if(!confirm(`Delete "${item.name}" (${item.id})?\nThis is permanent.`))return;
+  try{
+    await sb(`inventory?id=eq.${encodeURIComponent(id)}`,{method:'DELETE'});
+    inventory=inventory.filter(i=>i.id!==id);
+    logAction(`Deleted: ${id} (${item.name})`);
+    renderTable();toast('Item deleted','ok');
+  }catch(e){toast('Failed: '+e.message,'err');}
 }
 
 // ─── Export ───────────────────────────────────────────────────────────────────
-function exportExcel() {
+function exportExcel(){
   const wb=XLSX.utils.book_new();
-  const headers=['Serial / ID','Name','Type','Category','Office','Status','Held by','Date out','Due back','Notes'];
-  const items = inventory.map(rowToItem);
-  const allData=[headers,...items.map(i=>[i.id,i.name,i.type,i.cat,i.office,i.status,i.heldBy,i.dateOut,i.dueBack,i.notes])];
-  const ws=XLSX.utils.aoa_to_sheet(allData); ws['!cols']=[16,24,14,12,10,14,16,12,12,28].map(w=>({wch:w}));
+  const headers=['Serial / ID','Name','Type','Category','Office','Total Qty','Available','Status','Notes'];
+  const ws=XLSX.utils.aoa_to_sheet([headers,...inventory.map(i=>[i.id,i.name,i.type||'',i.cat,i.office,i.quantity||1,i.qty_available??i.quantity??1,computeStatus(i),i.notes||''])]);
+  ws['!cols']=[16,24,14,12,10,8,8,14,28].map(w=>({wch:w}));
   XLSX.utils.book_append_sheet(wb,ws,'All inventory');
-  [['UK','Tech'],['UK','Marketing'],['Ireland','Tech'],['Ireland','Marketing']].forEach(([office,cat])=>{
-    const rows=items.filter(i=>i.office===office&&i.cat===cat); if(!rows.length)return;
-    const sw=XLSX.utils.aoa_to_sheet([headers,...rows.map(i=>[i.id,i.name,i.type,i.cat,i.office,i.status,i.heldBy,i.dateOut,i.dueBack,i.notes])]);
-    sw['!cols']=[16,24,14,12,10,14,16,12,12,28].map(w=>({wch:w}));
-    XLSX.utils.book_append_sheet(wb,sw,(office==='UK'?'UK':'IE')+'-'+cat.slice(0,4));
-  });
   XLSX.writeFile(wb,`inventory-${new Date().toISOString().slice(0,10)}.xlsx`);
-  logAction(`Excel exported (${inventory.length} items)`);
+  logAction(`Excel exported (${inventory.length} rows)`);
 }
 
-// ─── Log ──────────────────────────────────────────────────────────────────────
-function renderLog() {
+// ─── Log & Helpers ────────────────────────────────────────────────────────────
+function logAction(msg){
+  const now=new Date();
+  const ts=now.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})+' '+now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  activityLog.unshift({ts,msg});
+  if(activityLog.length>300)activityLog=activityLog.slice(0,300);
+  localStorage.setItem('inv_log',JSON.stringify(activityLog));
+}
+function renderLog(){
   const el=document.getElementById('log-list');
-  if(!activityLog.length){el.innerHTML='<div class="empty">No activity recorded yet.</div>';return;}
+  if(!activityLog.length){el.innerHTML='<div class="empty">No activity yet.</div>';return;}
   el.innerHTML=activityLog.map(e=>`<div class="log-entry"><span class="log-time">${e.ts}</span><span class="log-msg">${e.msg}</span></div>`).join('');
 }
-function clearLog() { if(!confirm('Clear all activity log entries?'))return; activityLog=[]; localStorage.setItem('inv_log','[]'); renderLog(); }
-
-// ─── Toast / Status ───────────────────────────────────────────────────────────
-function showToast(msg, type) {
+function clearLog(){if(!confirm('Clear log?'))return;activityLog=[];localStorage.setItem('inv_log','[]');renderLog();}
+function toast(msg,type){
   let t=document.getElementById('toast');
-  if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:1.5rem;right:1.5rem;padding:10px 16px;border-radius:8px;font-size:13px;z-index:999;border:0.5px solid;max-width:300px';document.body.appendChild(t);}
+  if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:1.5rem;right:1.5rem;padding:10px 16px;border-radius:8px;font-size:13px;z-index:999;border:0.5px solid;max-width:320px;box-shadow:0 4px 12px rgba(0,0,0,.15)';document.body.appendChild(t);}
   t.textContent=msg;
   t.style.background=type==='ok'?'var(--green-bg)':'var(--red-bg)';
   t.style.color=type==='ok'?'var(--green-text)':'var(--red-text)';
   t.style.borderColor=type==='ok'?'var(--green-border)':'var(--red-border)';
-  t.style.display='block';
-  clearTimeout(t._timer);
-  t._timer=setTimeout(()=>{t.style.display='none';},3000);
+  t.style.display='block';clearTimeout(t._t);t._t=setTimeout(()=>{t.style.display='none';},3500);
 }
 function showStatus(id,msg,type){const el=document.getElementById(id);el.textContent=msg;el.className='status-msg status-'+type;setTimeout(()=>{el.textContent='';el.className='status-msg';},4000);}
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function showApiModal(){document.getElementById('api-key-update').value=aiKey;openModal('api-modal');}
-function updateApiKey(){aiKey=document.getElementById('api-key-update').value.trim();if(aiKey)localStorage.setItem('inv_ai_key',aiKey);closeModal('api-modal');}
+function updateApiKey(){aiKey=document.getElementById('api-key-update').value.trim();if(aiKey)localStorage.setItem('inv_ai_key',aiKey);closeModal('api-modal');toast('API key saved','ok');}
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
-// Auto-launch if AI key already saved (skip setup screen)
-if(aiKey){document.getElementById('ai-key-input').value=aiKey;}
-// Always show setup screen first (it's quick)
+if(aiKey)document.getElementById('ai-key-input').value=aiKey;
 document.getElementById('setup-screen').style.display='flex';
 </script>
 </body>
